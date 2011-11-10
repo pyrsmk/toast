@@ -1,7 +1,7 @@
 /*
-    toast, just a synchroneous resource loader
+    toast, just a minimal but yet powerful resource loader
 
-    Version     : 0.2.0
+    Version     : 0.2.1
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
@@ -17,7 +17,7 @@ this.toast=function(resources,complete,when,callback){
     var resource,
         node,
         doc=document,
-        head=doc.head,
+        head=doc.getElementsByTagName('head')[0],
         createElement='createElement',
         appendChild='appendChild',
         addEventListener='addEventListener',
@@ -40,7 +40,7 @@ this.toast=function(resources,complete,when,callback){
             else{
                 setTimeout(function(){watchLink(node);},250);
             }
-        }/*,
+        },
         watchObject=function(when){
             if(window[when]){
                 isComplete();
@@ -49,49 +49,52 @@ this.toast=function(resources,complete,when,callback){
                 setTimeout(function(){watchObject(when);},250);
             }
         },
-        watchScript=function(when){
+        watchScript=function(){
             if(when){
                 watchObject(when);
             }
             else{
                 isComplete();
             }
-        }*/;
-    // Format
-    if(resources===''+resources){
-        resources=[resources];
-    }
-    // Load resources
-    i=scriptsToLoad=resources.length;
-    while(resource=resources[--i]){
-        // Points out to another resource list
-        if(resource.pop){
-            this.toast(resource[0],resource[1],resource[2],isComplete());
-        }
-        // CSS
-        else if(resource.match(/\.css$/)){
-            // Create LINK element
-            node=doc[createElement]('link');
-            node.rel='stylesheet';
-            node.href=resource;
-            head[appendChild](node);
-            // Watch loading state
-            watchLink(node);
-        }
-        // JS
-        else{
-            // Create SCRIPT element
-            node=doc[createElement]('script');
-            node.src=resource;
-            head[appendChild](node);
-            // Watch loading state
-            //watchScript(node);
-            if(node[addEventListener]){
-                node[addEventListener]('load',isComplete,false);
+        },
+        // Waiting for the DOM readiness
+        isDOMReady=function(){
+            if(head){
+                // Format
+                if(resources===''+resources){
+                    resources=[resources];
+                }
+                // Load resources
+                i=scriptsToLoad=resources.length;
+                while(resource=resources[--i]){
+                    // Points out to another resource list
+                    if(resource.pop){
+                        this.toast(resource[0],resource[1],resource[2],isComplete());
+                    }
+                    // CSS
+                    else if(resource.match(/\.css$/)){
+                        // Create LINK element
+                        node=doc[createElement]('link');
+                        node.rel='stylesheet';
+                        node.href=resource;
+                        head[appendChild](node);
+                        // Watching loading state
+                        watchLink(node);
+                    }
+                    // JS
+                    else{
+                        // Create SCRIPT element
+                        node=doc[createElement]('script');
+                        node.src=resource;
+                        head[appendChild](node);
+                        // Watching loading state
+                        node.onload=node.onreadystatechange=watchScript;
+                    }
+                }
             }
             else{
-                node.attachEvent('onload',isComplete);
+                setTimeout(isDOMReady,250);
             }
-        }
-    }
+        };
+    isDOMReady();
 };
