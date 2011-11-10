@@ -1,7 +1,7 @@
 /*
     toast, just a minimal but yet powerful resource loader
 
-    Version     : 0.2.1
+    Version     : 0.2.2
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
@@ -34,7 +34,7 @@ this.toast=function(resources,complete,when,callback){
             }
         },
         watchLink=function(node){
-            if(node.textContent || node.text){
+            if(node.sheet || node.styleSheet){
                 isComplete();
             }
             else{
