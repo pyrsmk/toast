@@ -1,7 +1,7 @@
 /*
     toast, just a minimal but yet powerful resource loader
 
-    Version     : 0.2.2
+    Version     : 0.2.3
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
@@ -13,7 +13,7 @@
     Parameters
         Array resources
 */
-this.toast=function(resources,complete,when,callback){
+this.toast=function(resources,complete,condition,callback){
     var resource,
         node,
         doc=document,
@@ -41,17 +41,17 @@ this.toast=function(resources,complete,when,callback){
                 setTimeout(function(){watchLink(node);},250);
             }
         },
-        watchObject=function(when){
-            if(window[when]){
+        watchObject=function(condition){
+            if(condition()){
                 isComplete();
             }
             else{
-                setTimeout(function(){watchObject(when);},250);
+                setTimeout(function(){watchObject(condition);},250);
             }
         },
         watchScript=function(){
-            if(when){
-                watchObject(when);
+            if(condition){
+                watchObject(condition);
             }
             else{
                 isComplete();
