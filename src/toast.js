@@ -1,7 +1,7 @@
 /*
     toast, just a minimal but yet powerful resource loader
 
-    Version     : 0.2.4
+    Version     : 0.2.5
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
@@ -21,6 +21,7 @@ this.toast=function(resources,complete){
         createElement='createElement',
         appendChild='appendChild',
         addEventListener='addEventListener',
+        onreadystatechange='onreadystatechange',
         i,
         scriptsToLoad,
         // Watch if all resources have been loaded
@@ -87,7 +88,14 @@ this.toast=function(resources,complete){
                         node.src=resource;
                         head[appendChild](node);
                         // Watching loading state
-                        node.onload=node.onreadystatechange=isComplete;
+                        // IE, Presto
+                        if(node[onreadystatechange]===null){
+                            node[onreadystatechange]=isComplete;
+                        }
+                        // IE>=9, Webkit, Gecko
+                        else{
+                            node.onload=isComplete;
+                        }
                     }
                 }
             }
