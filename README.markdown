@@ -1,13 +1,29 @@
-Toast 0.1.0
+Toast 0.2.5
 ===========
 
-Toast is just a minimal synchroneous loader for js and css files. Such a loader is especially needed for loading resources, with certain conditions, in responsive development without having horrifying FOUC issues (as with asynchroneous loaders).
+Toast is a resource loader for JS and CSS files.
 
-It accepts only one parameter: a string or an array of strings that represent the resources to load.
+Features
+--------
+
+- load resources as soon as possible to avoid FOUC issues (especially when loading stylesheets)
+- infinite nesting
+- advanced callback support
+- tested against IE>=5.5, Chrome, Safari>3, Opera>9, Firefox>2
+- really tiny
+
+Syntax
+------
+
+It accepts two parameters:
+
+- a string or an array of strings representing resources to load
+- an optional callback
 
     // Load one css file for mobiles
     toast('css/mobiles.css');
-    // Load several resources for screens
+    
+    // Load several resources for desktops
     if(screen.width>800){
         toast([
             'css/screens.css',
@@ -16,11 +32,63 @@ It accepts only one parameter: a string or an array of strings that represent th
         ]);
     }
 
-All resources are loaded in the same order you've listed them, as if you'd did:
+    // The callback is called when all is loaded
+    toast('scripts/jquery.js',function(){log('loaded');});
+    
+    // Works, naturally, with several resources
+    toast(
+        [
+            'css/screens.css',
+            'js/modernizr.js',
+            'js/classie.js'
+        ],
+        function(){
+            log('All is loaded');
+        }
+    );
 
-    <link rel="stylesheet" href="css/screens.css">
-    <script src="js/modernizr.js"></script>
-    <script src="js/classie.js"></script>
+Sometimes, on some browsers, scripts are not parsed yet when we want to use them (like calling a function from that script). To resolve that issue, toast provides a simple way:
+
+    toast(
+        'scripts/jquery.js',
+        function(){
+            // The callback will be called until `$` is not set
+            if(!window.$){
+                return false;
+            }
+            // jQuery actions
+            // .....
+        }
+    );
+
+This is, returning `false` into the callback makes it called while it doesn't return another value than `false` (so, an `undefined` returned value won't make the callback to hang on).
+
+Finally, as nested resources are fully supported, you can do that:
+
+    toast(
+        [
+            'css/screens.css',
+            [
+                [
+                    'js/modernizr.js',
+                    'js/respond.js',
+                    [
+                        'js/selectivizr.js',
+                        function(){
+                            log('Selectivizr has been loaded');
+                        }
+                    ]
+                ],
+                function(){
+                    log('Modernizr, respond and selectivizr have been loaded');
+                }
+            ],
+            'js/classie.js'
+        ],
+        function(){
+            log('Screens.css, modernizr, respond, selectivizr and classie have been loaded');
+        }
+    );
 
 License
 -------

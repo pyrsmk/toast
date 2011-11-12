@@ -88,11 +88,11 @@ this.toast=function(resources,complete){
                         node.src=resource;
                         head[appendChild](node);
                         // Watching loading state
-                        // IE, Presto
+                        // ----- IE, Presto
                         if(node[onreadystatechange]===null){
                             node[onreadystatechange]=isComplete;
                         }
-                        // IE>=9, Webkit, Gecko
+                        // ----- IE>=9, Webkit, Gecko
                         else{
                             node.onload=isComplete;
                         }
