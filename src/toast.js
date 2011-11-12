@@ -1,7 +1,7 @@
 /*
     toast, just a minimal but yet powerful resource loader
 
-    Version     : 0.2.3
+    Version     : 0.2.4
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
@@ -13,7 +13,7 @@
     Parameters
         Array resources
 */
-this.toast=function(resources,complete,condition,callback){
+this.toast=function(resources,complete){
     var resource,
         node,
         doc=document,
@@ -23,39 +23,38 @@ this.toast=function(resources,complete,condition,callback){
         addEventListener='addEventListener',
         i,
         scriptsToLoad,
+        // Watch if all resources have been loaded
         isComplete=function(resource){
-            if(!--scriptsToLoad){
+            if(--scriptsToLoad<1){
                 if(complete){
-                    complete();
-                }
-                if(callback){
-                    callback();
+                    if(complete()===false){
+                        setTimeout(isComplete,250);
+                    }
                 }
             }
         },
-        watchLink=function(node){
+        // Watch is a CSS resource has been loaded
+        watchStylesheet=function(node){
             if(node.sheet || node.styleSheet){
                 isComplete();
             }
             else{
-                setTimeout(function(){watchLink(node);},250);
+                setTimeout(
+                    function(node){
+                        return function(){
+                            watchStylesheet(node);
+                        };
+                    }(node),
+                    250
+                );
             }
         },
-        watchObject=function(condition){
-            if(condition()){
-                isComplete();
-            }
-            else{
-                setTimeout(function(){watchObject(condition);},250);
-            }
-        },
-        watchScript=function(){
-            if(condition){
-                watchObject(condition);
-            }
-            else{
-                isComplete();
-            }
+        // Watch a resource list
+        watchResourceList=function(local,global){
+            return function(){
+                local();
+                global();
+            };
         },
         // Waiting for the DOM readiness
         isDOMReady=function(){
@@ -69,7 +68,7 @@ this.toast=function(resources,complete,condition,callback){
                 while(resource=resources[--i]){
                     // Points out to another resource list
                     if(resource.pop){
-                        this.toast(resource[0],resource[1],resource[2],isComplete());
+                        this.toast(resource[0],watchResourceList(resource[1],isComplete));
                     }
                     // CSS
                     else if(resource.match(/\.css$/)){
@@ -79,7 +78,7 @@ this.toast=function(resources,complete,condition,callback){
                         node.href=resource;
                         head[appendChild](node);
                         // Watching loading state
-                        watchLink(node);
+                        watchStylesheet(node);
                     }
                     // JS
                     else{
@@ -88,7 +87,7 @@ this.toast=function(resources,complete,condition,callback){
                         node.src=resource;
                         head[appendChild](node);
                         // Watching loading state
-                        node.onload=node.onreadystatechange=watchScript;
+                        node.onload=node.onreadystatechange=isComplete;
                     }
                 }
             }

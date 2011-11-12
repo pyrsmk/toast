@@ -7,10 +7,8 @@ domReady(function(){
             toast(
                 'resources/a.js',
                 function(){
+                    if(!window.a) return false;
                     ok(true,'One JS resource loaded');
-                },
-                function(){
-                    return !!window.a;
                 }
             );
             // One CSS resource
@@ -35,27 +33,21 @@ domReady(function(){
                             [
                                 'resources/e.js',
                                 function(){
+                                    if(!window.e) return false;
                                     ok(true,'One JS resource loaded [level 3]');
-                                },
-                                function(){
-                                    return !!window.e;
                                 }
                             ]
                         ],
                         function(){
+                            if(!window.d) return false;
                             ok(true,'Two JS resources loaded [level 2]');
-                        },
-                        function(){
-                            return !!window.d;
                         }
                     ]
                 ],
                 function(){
+                    if(!window.b && !window.c) return false;
                     ok(true,'Four JS resources loaded [level 1]');
                     ok(document.styleSheets.length==3,'Two CSS resources loaded [level 1]');
-                },
-                function(){
-                    return !!window.b && !!window.c;
                 }
             );
         });
