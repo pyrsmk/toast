@@ -20,9 +20,11 @@ It accepts two parameters:
 - a string or an array of strings representing resources to load
 - an optional callback
 
+Here's how toast loads resources:
+
     // Load one css file for mobiles
     toast('css/mobiles.css');
-    
+
     // Load several resources for desktops
     if(screen.width>800){
         toast([
@@ -32,9 +34,11 @@ It accepts two parameters:
         ]);
     }
 
-    // The callback is called when all is loaded
+And how callbacks are used:
+
+    // The callback is called when jQuery has been loaded
     toast('scripts/jquery.js',function(){log('loaded');});
-    
+
     // Works, naturally, with several resources
     toast(
         [
