@@ -1,10 +1,14 @@
 /*
     toast, just a minimal but yet powerful resource loader
 
-    Version     : 0.2.6
+    Version     : 0.2.7
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
+    
+    Failures
+    
+        Safari 3: unit failed on CSS loading, because of document.styleSheets
 */
 
 /*
@@ -18,7 +22,7 @@ this.toast=function(resources,complete){
     var resource,
         node,
         doc=document,
-        head=doc.getElementsByTagName('head')[0],
+        head=doc.documentElement,
         createElement='createElement',
         appendChild='appendChild',
         addEventListener='addEventListener',

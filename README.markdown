@@ -1,7 +1,7 @@
-Toast 0.2.6
+Toast 0.2.7
 ===========
 
-Toast is a resource loader for JS and CSS files.
+Toast is a tiny resource loader for JS and CSS files.
 
 Features
 --------
@@ -9,8 +9,7 @@ Features
 - load resources as soon as possible to avoid FOUC issues (especially when loading stylesheets)
 - infinite nesting
 - advanced callback support
-- tested against IE>=5.5, Chrome, Safari>3, Opera>9, Firefox>2
-- really tiny
+- tested against IE 5.5+, Chrome, Safari 4+, Opera 9+, Firefox 2+
 
 Syntax
 ------
