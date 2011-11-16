@@ -1,7 +1,7 @@
 /*
     toast, just a minimal but yet powerful resource loader
 
-    Version     : 0.2.5
+    Version     : 0.2.6
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
@@ -11,7 +11,8 @@
     Load resources
     
     Parameters
-        Array resources
+        Array resources     : resource list
+        Function complete   : called when all resources have been loaded
 */
 this.toast=function(resources,complete){
     var resource,
@@ -25,7 +26,7 @@ this.toast=function(resources,complete){
         i,
         scriptsToLoad,
         // Watch if all resources have been loaded
-        isComplete=function(resource){
+        isComplete=function(){
             if(--scriptsToLoad<1){
                 if(complete){
                     if(complete()===false){
@@ -34,7 +35,7 @@ this.toast=function(resources,complete){
                 }
             }
         },
-        // Watch is a CSS resource has been loaded
+        // Watch if a CSS resource has been loaded
         watchStylesheet=function(node){
             if(node.sheet || node.styleSheet){
                 isComplete();
@@ -50,10 +51,18 @@ this.toast=function(resources,complete){
                 );
             }
         },
+        // Watch if a script has been loaded
+        watchScript=function(){
+            if(this.readyState.match(/^(loade|c)/)){
+                isComplete();
+            }
+        },
         // Watch a resource list
         watchResourceList=function(local,global){
             return function(){
-                local();
+                if(local){
+                    local();
+                }
                 global();
             };
         },
@@ -88,11 +97,11 @@ this.toast=function(resources,complete){
                         node.src=resource;
                         head[appendChild](node);
                         // Watching loading state
-                        // ----- IE, Presto
+                        // ----- Trident, Presto
                         if(node[onreadystatechange]===null){
-                            node[onreadystatechange]=isComplete;
+                            node[onreadystatechange]=watchScript;
                         }
-                        // ----- IE>=9, Webkit, Gecko
+                        // ----- Webkit, Gecko (IE>=9, Presto)
                         else{
                             node.onload=isComplete;
                         }
