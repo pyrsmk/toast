@@ -5,10 +5,6 @@
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
-    
-    Failures
-    
-        Safari 3: unit failed on CSS loading, because of document.styleSheets
 */
 
 /*

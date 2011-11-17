@@ -9,7 +9,7 @@ Features
 - load resources as soon as possible to avoid FOUC issues (especially when loading stylesheets)
 - infinite nesting
 - advanced callback support
-- tested against IE 5.5+, Chrome, Safari 4+, Opera 9+, Firefox 2+
+- tested against IE 5.5+, Chrome, Safari 3+, Opera 9+, Firefox 2+
 
 Syntax
 ------
