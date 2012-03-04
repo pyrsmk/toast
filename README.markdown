@@ -1,5 +1,5 @@
-Toast 0.2.9
-===========
+Toast 0.2.10
+============
 
 Toast is a tiny resource loader for JS and CSS files.
 
