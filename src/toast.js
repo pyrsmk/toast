@@ -1,7 +1,7 @@
 /*
     toast, just a minimal but yet powerful resource loader
 
-    Version     : 0.2.9
+    Version     : 0.2.10
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
@@ -28,10 +28,11 @@ this.toast=function(resources,complete){
         styleSheet='styleSheet',
         i,
         scriptsToLoad,
+        ten=10,
         // Watch if all resources have been loaded
         isComplete=function(){
             if(--scriptsToLoad<1 && complete && complete()===false){
-                setTimeout(isComplete);
+                setTimeout(isComplete,ten);
             }
         },
         // Watch if a CSS resource has been loaded
@@ -40,7 +41,7 @@ this.toast=function(resources,complete){
                 isComplete();
             }
             else{
-                setTimeout(function(){watchStylesheet(node);});
+                setTimeout(function(){watchStylesheet(node);},ten);
             }
         },
         // Watch if a script has been loaded
@@ -59,7 +60,7 @@ this.toast=function(resources,complete){
             };
         };
     // Waiting for DOM readiness
-    if(head || setTimeout(toast)){
+    if(head || setTimeout(toast,ten)){
         // Format
         if(resources===''+resources){
             resources=[resources];
