@@ -1,24 +1,14 @@
 /*
-    toast, just a minimal but yet powerful resource loader
+    toast, the simple resource loader
 
-    Version     : 0.2.10
+    Version     : 1.0.0
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
 */
 
-/*
-    Load resources
-    
-    Parameters
-        Array resources     : resource list
-        Function complete   : called when all resources have been loaded
-*/
-this.toast=function(resources,complete){
-    var toast=this.toast,
-        resource,
-        node,
-        doc=document,
+this.toast=function(){
+    var doc=document,
         head=doc.getElementsByTagName('head')[0],
         setTimeout=this.setTimeout,
         createElement='createElement',
@@ -26,78 +16,93 @@ this.toast=function(resources,complete){
         addEventListener='addEventListener',
         onreadystatechange='onreadystatechange',
         styleSheet='styleSheet',
-        i,
-        scriptsToLoad,
         ten=10,
-        // Watch if all resources have been loaded
-        isComplete=function(){
-            if(--scriptsToLoad<1 && complete && complete()===false){
-                setTimeout(isComplete,ten);
+        loading=0,
+        decrementLoading=function(){--loading;},
+        i,
+        // Load as much resources as we can
+        loadResources=function(resources,callback,a,b){
+            // Waiting for DOM readiness then load resources
+            if(!head){
+                setTimeout(function(){loadResources(resources);},ten);
             }
-        },
-        // Watch if a CSS resource has been loaded
-        watchStylesheet=function(node){
-            if(node.sheet || node[styleSheet]){
-                isComplete();
-            }
-            else{
-                setTimeout(function(){watchStylesheet(node);},ten);
-            }
-        },
-        // Watch if a script has been loaded
-        watchScript=function(){
-            if(/ded|co/.test(this.readyState)){
-                isComplete();
-            }
-        },
-        // Watch a resource list
-        watchResourceList=function(local,global){
-            return function(){
-                if(local){
-                    local();
+            // Load resources
+            else if(resources.length){
+                i=-1;
+                while(a=resources[++i]){
+                    // Simple callback
+                    if((b=typeof a)=='function'){
+                        callback=function(){a();return true;};
+                        break;
+                    }
+                    // Resource
+                    else if(b=='string'){
+                        loadResource(a);
+                    }
+                    // Resource + validation callback
+                    else if(a.pop){
+                        loadResource(a[0]);
+                        callback=a[1];
+                        break;
+                    }
                 }
-                global();
-            };
-        };
-    // Waiting for DOM readiness
-    if(head || setTimeout(toast,ten)){
-        // Format
-        if(resources===''+resources){
-            resources=[resources];
-        }
-        // Load resources
-        i=scriptsToLoad=resources.length;
-        while(resource=resources[--i]){
-            // Points out to another resource list
-            if(resource.pop){
-                toast(resource[0],watchResourceList(resource[1],isComplete));
+                watchResources(callback,Array.prototype.slice.call(resources,i+1));
             }
+        },
+        // Load one resource
+        loadResource=function(resource,a){
+            ++loading;
             // CSS
-            else if(/\.css$/.test(resource)){
+            if(/\.css$/.test(resource)){
                 // Create LINK element
-                node=doc[createElement]('link');
-                node.rel=styleSheet;
-                node.href=resource;
-                head[appendChild](node);
+                a=doc[createElement]('link');
+                a.rel=styleSheet;
+                a.href=resource;
+                head[appendChild](a);
                 // Watching loading state
-                watchStylesheet(node);
+                watchStylesheet(a);
             }
             // JS
             else{
                 // Create SCRIPT element
-                node=doc[createElement]('script');
-                node.src=resource;
-                head[appendChild](node);
+                a=doc[createElement]('script');
+                a.src=resource;
+                head[appendChild](a);
                 // Watching loading state
-                if(node[onreadystatechange]===null){
+                if(a[onreadystatechange]===null){
                     // Trident, Presto
-                    node[onreadystatechange]=watchScript;
+                    a[onreadystatechange]=watchScript;
                 }
                 else{
                     // Webkit, Gecko (also IE>=9 and Presto)
-                    node.onload=isComplete;
+                    a.onload=decrementLoading;
                 }
             }
-        }
-    }
+        },
+        // Watch if all resources have been loaded
+        watchResources=function(callback,resourcesToLoad){
+            if(!loading){
+                if(!callback || callback()){
+                    loadResources(resourcesToLoad);
+                    return;
+                }
+            }
+            setTimeout(function(){watchResources(callback,resourcesToLoad);},ten);
+        },
+        // Watch if a CSS resource has been loaded
+        watchStylesheet=function(node){
+            if(node.sheet || node[styleSheet]){
+                decrementLoading();
+                return;
+            }
+            setTimeout(function(){watchStylesheet(node);},ten);
+        },
+        // Watch if a script has been loaded
+        watchScript=function(){
+            if(/ded|co/.test(this.readyState)){
+                decrementLoading();
+            }
+        };
+    // Load resources
+    loadResources(arguments);
 };
