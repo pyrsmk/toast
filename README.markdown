@@ -1,99 +1,61 @@
-Toast 0.2.10
-============
+toast 1.0.0
+===========
 
-Toast is a tiny resource loader for JS and CSS files.
+toast is a tiny resource loader for JS and CSS files.
+
+__Be careful, 1.0.x version is not compatible at all with 0.2.x version!__
 
 Features
 --------
 
-- load resources as soon as possible to avoid FOUC issues (especially when loading stylesheets)
-- infinite nesting
-- advanced callback support
-- tested against IE 5.5+, Chrome, Safari 3+, Opera 9+, Firefox 2+
+toast has been designed to avoid FOUC issues when loading stylesheets on-the-fly since yepnope (or other libraries) didn't seem to handle well this.
+
+Of course, it could load scripts and it's tested against all major browsers versions.
 
 Syntax
 ------
 
-It accepts two parameters:
+There's a big thing to have in mind: resources are loaded asynchronous until a callback is encountered. That said, let's dig in it. The library accept as many parameters as you want of the following types: a string (a resource's URL), an array (a resource's URL and a loading validation callback) or a function (an arbitrary callback).
 
-- a string or an array of strings representing resources to load
-- an optional callback
-
-Here's how toast loads resources:
+But some examples are better to understand the whole thing:
 
     // Load one css file for mobiles
     toast('css/mobiles.css');
 
     // Load several resources for desktops
     if(screen.width>800){
-        toast([
+        toast(
             'css/screens.css',
             'js/modernizr.js',
             'js/classie.js'
-        ]);
+        );
     }
 
-And how callbacks are used:
-
-    // The callback is called when jQuery has been loaded
-    toast('scripts/jquery.js',function(){log('loaded');});
-
-    // Works, naturally, with several resources
+    // Launch a callback when the CSS has been downloaded, and another when scripts have been downloaded too
     toast(
-        [
-            'css/screens.css',
-            'js/modernizr.js',
-            'js/classie.js'
-        ],
+        'css/screens.css',
         function(){
-            log('All is loaded');
+            log('screens.css downloaded');
+        },
+        'js/modernizr.js',
+        'js/classie.js',
+        function(){
+            log('modernizr & classie downloaded');
         }
     );
 
-Sometimes, on some browsers, scripts are not parsed yet when we want to use them (like calling a function from that script). To resolve that issue, toast provides a simple way:
+Sometimes, on some browsers, scripts are not parsed yet when we want to use them (like calling a function from that script). To resolve that issue, toast provides a simple way by providing an array with the resource and a validation callback inside it. The loading process will continue when the validation callback will return a `true` value (a `false` value could be `false` itself, an empty string, `null`, `undefined`, etc):
 
     toast(
-        'scripts/jquery.js',
+        'css/screens.css',
+        ['js/modernizr.js',function(){return window.Modernizr;}],
+        ['js/classie.js',function(){return window.IE;}],
         function(){
-            // The callback will be called until `$` is not set
-            if(!window.$){
-                return false;
-            }
-            // jQuery actions
-            // .....
-        }
-    );
-
-This is, returning `false` into the callback makes it called while it doesn't return another value than `false` (so, an `undefined` returned value won't make the callback to hang on).
-
-Finally, as nested resources are fully supported, you can do that:
-
-    toast(
-        [
-            'css/screens.css',
-            [
-                [
-                    'js/modernizr.js',
-                    'js/respond.js',
-                    [
-                        'js/selectivizr.js',
-                        function(){
-                            log('Selectivizr has been loaded');
-                        }
-                    ]
-                ],
-                function(){
-                    log('Modernizr, respond and selectivizr have been loaded');
-                }
-            ],
-            'js/classie.js'
-        ],
-        function(){
-            log('Screens.css, modernizr, respond, selectivizr and classie have been loaded');
+            log('All scripts are fully loaded, woh yeah!');
         }
     );
 
 License
 -------
 
-Toast is licensed under the MIT license.
+toast is licensed under the MIT license.
