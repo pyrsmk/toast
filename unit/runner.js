@@ -19,9 +19,9 @@ domReady(function(){
             );
         });
 
-        test('Several resources',3,function(){
+        test('Several resources',4,function(){
             toast(
-                'resources/b.js',
+                'resources/b.js?v=1',
                 'resources/b.css',
                 function(){
                     ok(true,'Callback called');
@@ -32,6 +32,12 @@ domReady(function(){
                 function(){
                     ok(true,'Three JS resources loaded');
                     ok(document.styleSheets.length>=2,'Two CSS resources loaded');
+                    toast(
+                        'resources/b.js',
+                        function(){
+                            ok(window.b==1,'Cannot call a resource twice');
+                        }
+                    );
                 }
             );
         });

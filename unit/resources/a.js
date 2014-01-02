@@ -1,1 +1,1 @@
-this.a=1;
+window.a=1;
