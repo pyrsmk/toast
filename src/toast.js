@@ -1,13 +1,20 @@
 /*
     toast, a simple CSS and JS resource loader
 
-    Version     : 1.1.0
+    Version     : 1.2.0
     Author      : Aurélien Delogu (dev@dreamysource.fr)
     Homepage    : https://github.com/pyrsmk/toast
     License     : MIT
 */
 
-this.toast=function(){
+(function(def){
+    if(typeof module!='undefined'){
+        module.exports=def;
+    }
+    else{
+        this.toast=def;
+    }
+}(function(){
 
     var handled_resources={};
     
@@ -117,4 +124,4 @@ this.toast=function(){
         loadResources(arguments);
     };
     
-}();
+}()));
