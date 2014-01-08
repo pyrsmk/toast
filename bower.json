@@ -1,0 +1,12 @@
+{
+  "name": "pyrsmk/toast",
+  "version": "1.2.0",
+  "main": "src/toast.js",
+  "description": "A simple CSS and JS resource loader",
+  "license": "MIT",
+  "author": "Aurélien Delogu",
+  "repository": {
+      "type": "git"
+    , "url": "https://github.com/pyrsmk/toast.git"
+  }
+}
