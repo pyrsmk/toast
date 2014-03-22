@@ -1,4 +1,4 @@
-toast 1.2.1
+toast 1.2.2
 ===========
 
 Toast is a tiny resource loader for JS and CSS files.

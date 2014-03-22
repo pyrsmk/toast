@@ -1,12 +1,21 @@
 {
-  "name": "pyrsmk/toast",
-  "version": "1.2.0",
-  "main": "src/toast.js",
+  "name": "toast",
+  "version": "1.2.2",
   "description": "A simple CSS and JS resource loader",
-  "license": "MIT",
-  "author": "Aurélien Delogu",
+  "main": "src/toast.js",
   "repository": {
-      "type": "git"
-    , "url": "https://github.com/pyrsmk/toast.git"
-  }
+    "type": "git",
+    "url": "git://github.com/pyrsmk/toast.git"
+  },
+  "keywords": [
+    "css",
+    "js",
+    "loader"
+  ],
+  "authors": ["AurÃ©lien Delogu"],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/pyrsmk/toast/issues"
+  },
+  "homepage": "http://dreamysource.fr/product/toast"
 }
