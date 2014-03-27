@@ -60,4 +60,4 @@ toast(
 License
 -------
 
-toast is licensed under the MIT license.
+toast is licensed under the [MIT license](http://dreamysource.mit-license.org).
