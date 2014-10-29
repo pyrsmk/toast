@@ -1,6 +1,5 @@
 {
   "name": "toast",
-  "version": "1.2.3",
   "description": "A simple CSS and JS resource loader",
   "main": "src/toast.js",
   "repository": {
