@@ -3,12 +3,20 @@ toast 1.2.3
 
 Toast is a tiny resource loader for JS and CSS files.
 
+Install
+-------
+
+You can pick the minified library or install it with :
+
+```
+bower install toast
+npm install pyrsmk-toast --save-dev
+```
+
 Features
 --------
 
-Toast has been designed to avoid FOUC issues when loading stylesheets on-the-fly since yepnope (or other libraries) didn't seem to handle well this.
-
-Of course, it could load scripts and it's tested against all major browsers versions.
+Toast has been designed to avoid FOUC issues when loading stylesheets on-the-fly since yepnope (or other libraries) didn't seem to handle this well. Of course, it could load scripts and it's tested against all major browsers versions.
 
 Syntax
 ------

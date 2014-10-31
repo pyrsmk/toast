@@ -1,6 +1,6 @@
 {
   "name": "toast",
-  "description": "A simple CSS and JS resource loader",
+  "description": "A simple CSS/JS resource loader",
   "main": "src/toast.js",
   "repository": {
     "type": "git",
@@ -16,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/pyrsmk/toast/issues"
   },
-  "homepage": "http://dreamysource.fr/product/toast"
+  "homepage": "http://dreamysource.fr/product/toast",
+  "ignore": [".git"]
 }
