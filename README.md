@@ -9,6 +9,7 @@ Install
 You can pick the minified library or install it with :
 
 ```
+jam install pyrsmk-toast
 bower install toast
 npm install pyrsmk-toast --save-dev
 ```
