@@ -1,9 +1,4 @@
-/*
-	toast, a simple CSS and JS resource loader
-
-	Author
-		Aurélien Delogu (dev@dreamysource.fr)
-*/
+/* toast 1.2.3 (https://github.com/pyrsmk/toast) */
 
 ;(function(context,name,definition){
 	if(typeof module!='undefined' && module.exports){
