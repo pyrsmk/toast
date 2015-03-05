@@ -17,5 +17,13 @@
     "url": "https://github.com/pyrsmk/toast/issues"
   },
   "homepage": "http://dreamysource.fr/product/toast",
-  "ignore": [".git"]
+  "ignore": [
+    ".git/",
+    ".gitignore",
+    "nodes_modules/",
+    "src/",
+    "tests/",
+    "Gruntfile.js",
+    "package.json"
+  ]
 }
