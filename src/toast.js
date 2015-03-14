@@ -1,4 +1,4 @@
-/*! toast 1.2.3 (https://github.com/pyrsmk/toast) */
+/*! toast 1.2.4 (https://github.com/pyrsmk/toast) */
 
 ;(function(context,name,definition){
 	if(typeof module!='undefined' && module.exports){
