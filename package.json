@@ -7,7 +7,7 @@
     "type": "git",
     "url": "https://github.com/pyrsmk/toast.git"
   },
-  "main": "src/toast.js",
+  "main": "toast.min.js",
   "keywords": [
     "css",
     "js",
