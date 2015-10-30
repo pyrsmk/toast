@@ -1,7 +1,7 @@
 {
   "name": "pyrsmk-toast",
   "description": "A simple CSS/JS resource loader",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "author": "Aurélien Delogu <pyrsmk@dreamysource.fr> (http://dreamysource.fr)",
   "repository": {
     "type": "git",
@@ -20,12 +20,14 @@
   },
   "homepage": "http://dreamysource.fr/product/toast",
   "devDependencies": {
-    "grunt": "~0.4.4",
-    "grunt-contrib-clean": "~0.5.0",
-    "grunt-contrib-jshint": "~0.9.2",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-shell": "^1.1.1",
-    "grunt-string-replace": "^1.0.0",
-    "jit-grunt": "^0.9.0"
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.11.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.3",
+    "gulp-shell": "^0.4.1",
+    "gulp-uglify": "^1.2.0",
+    "gulp-umd": "^0.2.0",
+    "jshint-stylish": "^2.0.0",
+    "merge2": "^0.3.5"
   }
 }
