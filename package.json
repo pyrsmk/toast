@@ -1,13 +1,13 @@
 {
   "name": "pyrsmk-toast",
   "description": "A simple CSS/JS resource loader",
-  "version": "1.2.5",
+  "version": "1.2.6",
   "author": "Aurélien Delogu <pyrsmk@dreamysource.fr> (http://dreamysource.fr)",
   "repository": {
     "type": "git",
     "url": "https://github.com/pyrsmk/toast.git"
   },
-  "main": "src/toast.js",
+  "main": "toast.js",
   "keywords": [
     "css",
     "js",
