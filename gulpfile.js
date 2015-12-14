@@ -8,7 +8,8 @@ var fs = require('fs'),
 	shell = require('gulp-shell'),
 	umd = require('gulp-umd');
 
-var version = fs.readFileSync('src/toast.js', {encoding:'utf8'}).match(/^\/\*\! [\w-]+ ([0-9.]+)/)[1];
+var name = 'toast',
+	version = fs.readFileSync('src/'+name+'.js', {encoding:'utf8'}).match(/^\/\*\! [\w-]+ ([0-9.]+)/)[1];
 
 // ======================================== gulp version
 
@@ -36,10 +37,13 @@ gulp.task('build', ['version'], function() {
 			boss: true
 		}) )
 		.pipe( jshint.reporter('jshint-stylish') )
-		.pipe( umd() )
+		.pipe( umd({
+			exports: function() { return name; },
+			namespace: function() { return name; }
+		}) )
 		.pipe( gulp.dest('.') )
 		.pipe( uglify() )
-		.pipe( rename({suffix:'.min'}) )
+		.pipe( rename({suffix: '.min'}) )
 		.pipe( gulp.dest('.') );
 });
 
