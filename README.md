@@ -9,9 +9,9 @@ Install
 You can pick the minified library or install it with :
 
 ```
-jam install pyrsmk-toast
+npm install pyrsmk-toast
 bower install toast
-npm install pyrsmk-toast --save-dev
+jam install pyrsmk-toast
 ```
 
 Features
@@ -31,7 +31,7 @@ But some examples are better to understand the whole thing:
 toast('css/mobiles.css');
 
 // Load several resources for desktops
-if(screen.width>800){
+if(screen.width > 800) {
     toast(
         'css/screens.css',
         'js/modernizr.js',
@@ -42,26 +42,30 @@ if(screen.width>800){
 // Launch a callback when the CSS has been downloaded, and another when scripts have been downloaded too
 toast(
     'css/screens.css',
-    function(){
+    function() {
         log('screens.css downloaded');
     },
     'js/modernizr.js',
     'js/classie.js',
-    function(){
+    function() {
         log('modernizr & classie downloaded');
     }
 );
 ```
 
-Sometimes, on some browsers, scripts are not parsed yet when we want to use them (like calling a function from that script). To resolve that issue, toast provides a simple way by providing an array with the resource and a validation callback inside it. The loading process will continue when the validation callback will return a `true` value (a `false` value could be `false` itself, an empty string, `null`, `undefined`, etc):
+Sometimes, on some browsers, scripts are not parsed yet when we want to use them (like calling a function from that script). To resolve that issue, toast provides a simple way. You need to provide an array with the resource and a validation callback. The loading process will continue when the validation callback will return a `true` value (a `false` value can be `false`, an empty string, `null`, `undefined`, etc).
 
 ```javascript
 toast(
     'css/screens.css',
-    ['js/modernizr.js',function(){return window.Modernizr;}],
-    ['js/classie.js',function(){return window.IE;}],
-    function(){
-        log('All scripts are fully loaded, woh yeah!');
+    ['js/modernizr.js',function() {
+		return window.Modernizr;
+	}],
+    ['js/classie.js',function() {
+		return window.IE;
+	}],
+    function() {
+        log('All scripts are fully loaded');
     }
 );
 ```
@@ -69,4 +73,4 @@ toast(
 License
 -------
 
-toast is licensed under the [MIT license](http://dreamysource.mit-license.org).
+Licensed under the [MIT license](http://dreamysource.mit-license.org).
