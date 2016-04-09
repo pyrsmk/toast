@@ -6,18 +6,18 @@ QUnit.test('One resource', function(assert) {
 	
 	// One JS resource
 	toast(
-		['resources/a.js', function() { return window.a; }],
+		'foo.js',
 		function() {
-			assert.ok(true, 'One JS resource loaded');
+			assert.ok('foo' in window && foo == 1, 'One JS resource loaded');
 			done1();
 		}
 	);
 	
 	// One CSS resource
 	toast(
-		['resources/a.css', function() { return document.styleSheets.length >= 1; }],
+		'https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.1/animate.min.css',
 		function() {
-			assert.ok(true, 'One CSS resource loaded');
+			assert.ok(document.styleSheets.length == 2, 'One CSS resource loaded');
 			done2();
 		}
 	);
@@ -25,31 +25,25 @@ QUnit.test('One resource', function(assert) {
 
 QUnit.test('Several resources', function(assert) {
 	var done1 = assert.async(),
-		done2 = assert.async(),
-		done3 = assert.async();
+		done2 = assert.async();
 	
 	assert.expect(4);
 	
 	toast(
-		'resources/b.js?v=1',
-		'resources/b.css',
+		'https://code.jquery.com/jquery-2.2.3.min.js',
+		'https://rawgit.com/pyrsmk/qwest/master/qwest.min.js',
+		'https://rawgit.com/pyrsmk/Horizon/master/build/minified/Horizon.min.js',
 		function() {
-			assert.ok(true, 'Callback called');
+			assert.ok(typeof jQuery == 'function', 'jQuery loaded');			
+			assert.ok(typeof qwest == 'object', 'qwest loaded');
+			assert.ok(typeof Horizon == 'object', 'Horizon loaded');
 			done1();
-		},
-		'resources/c.js',
-		'resources/c.css',
-		['resources/d.js', function() { return window.b && window.c && window.d; }],
-		function() {
-			assert.ok(true, 'Three JS resources loaded');
-			assert.ok(document.styleSheets.length >= 2, 'Two CSS resources loaded');
-			done2();
 			
 			toast(
-				'resources/b.js',
+				'foo.js',
 				function() {
-					assert.ok(window.b == 1, 'Cannot call a resource twice');
-					done3();
+					assert.ok(foo == 1, 'Cannot load a resource twice');
+					done2();
 				}
 			);
 		}

@@ -1,7 +1,7 @@
 {
   "name": "toast",
   "description": "A simple CSS/JS resource loader",
-  "main": "src/toast.js",
+  "main": "toast.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/pyrsmk/toast.git"

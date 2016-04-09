@@ -1,4 +1,4 @@
-toast 1.2.7
+toast 2.0.0
 ===========
 
 Toast is a tiny resource loader for JS and CSS files.
@@ -14,10 +14,10 @@ bower install toast
 jam install pyrsmk-toast
 ```
 
-Features
---------
+Changes from v1
+---------------
 
-Toast has been designed to avoid FOUC issues when loading stylesheets on-the-fly since yepnope (or other libraries) didn't seem to handle this well. Of course, it could load scripts and it's tested against all major browsers versions.
+Be careful! The loading state detector has been redesigned and additional loading verification callbacks have been dropped.
 
 Syntax
 ------
@@ -49,23 +49,6 @@ toast(
     'js/classie.js',
     function() {
         log('modernizr & classie downloaded');
-    }
-);
-```
-
-Sometimes, on some browsers, scripts are not parsed yet when we want to use them (like calling a function from that script). To resolve that issue, toast provides a simple way. You need to provide an array with the resource and a validation callback. The loading process will continue when the validation callback will return a `true` value (a `false` value can be `false`, an empty string, `null`, `undefined`, etc).
-
-```javascript
-toast(
-    'css/screens.css',
-    ['js/modernizr.js',function() {
-		return window.Modernizr;
-	}],
-    ['js/classie.js',function() {
-		return window.IE;
-	}],
-    function() {
-        log('All scripts are fully loaded');
     }
 );
 ```
