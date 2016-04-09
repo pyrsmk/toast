@@ -26,7 +26,7 @@ There's a big thing to have in mind: resources are loaded asynchronous until a c
 
 But some examples are better to understand the whole thing:
 
-```javascript
+```js
 // Load one css file for mobiles
 toast('css/mobiles.css');
 
@@ -51,6 +51,18 @@ toast(
         log('modernizr & classie downloaded');
     }
 );
+```
+
+If you need to ensure that a script is fully loaded before another one (per example if you want to load a jQuery plugin, the plugin will throw an error if jQuery is not loaded yet), just put a callback between them.
+
+```js
+toast(
+    'jquery.js',
+    function() {},
+    'jquery-plugin.js',
+	function() {
+		// Use jQuery and its plugin
+	}
 ```
 
 License
