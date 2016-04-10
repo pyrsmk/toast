@@ -27,22 +27,24 @@ QUnit.test('Several resources', function(assert) {
 	var done1 = assert.async(),
 		done2 = assert.async();
 	
-	assert.expect(4);
+	assert.expect(5);
 	
 	toast(
 		'https://code.jquery.com/jquery-2.2.3.min.js',
-		'https://rawgit.com/pyrsmk/qwest/master/qwest.min.js',
+		'[js]https://rawgit.com/pyrsmk/qwest/master/qwest.min.js',
 		'https://rawgit.com/pyrsmk/Horizon/master/build/minified/Horizon.min.js',
+		'[css]https://fonts.googleapis.com/css?family=Open+Sans',
 		function() {
 			assert.ok(typeof jQuery == 'function', 'jQuery loaded');			
-			assert.ok(typeof qwest == 'object', 'qwest loaded');
+			assert.ok(typeof qwest == 'object', 'qwest loaded [explicit]');
 			assert.ok(typeof Horizon == 'object', 'Horizon loaded');
+			assert.ok(document.styleSheets.length == 3, 'Google font loaded [explicit]');
 			done1();
 			
 			toast(
 				'foo.js',
 				function() {
-					assert.ok(foo == 1, 'Cannot load a resource twice');
+					assert.ok(foo == 1, 'Cannot load the same resource twice');
 					done2();
 				}
 			);

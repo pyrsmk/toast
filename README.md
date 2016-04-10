@@ -1,4 +1,4 @@
-toast 2.0.0
+toast 2.1.0
 ===========
 
 Toast is a tiny resource loader for JS and CSS files.
@@ -63,6 +63,15 @@ toast(
 	function() {
 		// Use jQuery and its plugin
 	}
+```
+
+Define resource type explicitly
+-------------------------------
+
+Toast is guessing your resource type by its extension. But sometimes, like with Google Fonts, there's no extension at the end of the URL. Then we'll need to set the resource type to help toast to load the resource as expected :
+
+```js
+toast('[css]https://fonts.googleapis.com/css?family=Open+Sans');
 ```
 
 License

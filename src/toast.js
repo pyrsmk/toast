@@ -1,4 +1,4 @@
-/*! toast 2.0.0 (https://github.com/pyrsmk/toast) */
+/*! toast 2.1.0 (https://github.com/pyrsmk/toast) */
 
 var handled_resources = {};
 
@@ -35,55 +35,70 @@ function toast() {
 
 	// Load one resource
 	loadResource = function(resource) {
-		// Extract resource name
-		var name = /(^.+\.\w+)(\?.*)?$/.exec(resource)[1],
-			node;
-		// Verify if the resource is not already handled
-		if(name in handled_resources) {
+		// Extract resource type
+		var implicit_type = /\.(\w+)$/.exec(resource),
+			explicit_type = /^\[(\w+)\](.+)/.exec(resource),
+			type, node;
+		if(explicit_type !== null) {
+			type = explicit_type[1];
+			resource = explicit_type[2];
+		}
+		else if(implicit_type !== null) {
+			type = implicit_type[1];
+		}
+		else {
 			return;
 		}
-		// Add resource to loading stack
-		handled_resources[name] = false;
-		// JS
-		if(/\.js$/.test(name)) {
-			// Create SCRIPT element
-			node = document.createElement('script');
-			node.src = resource;
-			node.type = 'text/javascript';
-			head.appendChild(node);
-			// Watch loading state
-			var version = navigator.appVersion.match(/MSIE (\d)/);
-			if(version !== null && parseInt(version[1], 10) < 9) {
-				// IE
-				node.onreadystatechange = function() {
-					if(/ded|co/.test(this.readyState)) {
-						handled_resources[name] = true;
-					}
-				};
-			}
-			else {
-				// Other browsers
-				node.onload = function() {
-					handled_resources[name] = true;
-				};
-			}
+		// Verify if the resource is not already handled
+		if(resource in handled_resources) {
+			return;
 		}
-		// CSS
-		else if(/\.css$/.test(name)) {
-			// Create LINK element
-			node = document.createElement('link');
-			node.rel = 'styleSheet';
-			node.href = resource;
-			head.appendChild(node);
-			// Watch loading state
-			watchStylesheet(node, name);
+		// Mark the resource as handled (but not loaded yet)
+		handled_resources[resource] = false;
+		// Load resource
+		switch(type) {
+			case 'js':
+				// Create SCRIPT element
+				node = document.createElement('script');
+				node.src = resource;
+				node.type = 'text/javascript';
+				head.appendChild(node);
+				// Watch loading state
+				var version = navigator.appVersion.match(/MSIE (\d)/);
+				if(version !== null && parseInt(version[1], 10) < 9) {
+					// IE<9
+					node.onreadystatechange = function() {
+						if(/ded|co/.test(this.readyState)) {
+							handled_resources[resource] = true;
+						}
+					};
+				}
+				else {
+					// Other browsers
+					node.onload = function() {
+						handled_resources[resource] = true;
+					};
+				}
+				break;
+			case 'css':
+				// Create LINK element
+				node = document.createElement('link');
+				node.rel = 'styleSheet';
+				node.href = resource;
+				head.appendChild(node);
+				// Watch loading state
+				watchStylesheet(node, resource);
+				break;
+			default:
+				delete handled_resources[resource];
+				return;
 		}
 	},
 
 	// Watch if all resources have been loaded
 	watchResources = function(callback, resourcesToLoad) {
-		for(var name in handled_resources) {
-			if(!handled_resources[name]) {
+		for(var resource in handled_resources) {
+			if(!handled_resources[resource]) {
 				setTimeout(function() {
 					watchResources(callback, resourcesToLoad);
 				}, 50);
@@ -97,13 +112,13 @@ function toast() {
 	},
 
 	// Watch if a CSS resource has been loaded
-	watchStylesheet = function(node, name) {
+	watchStylesheet = function(node, resource) {
 		if(node.sheet || node.styleSheet) {
-			handled_resources[name] = true;
+			handled_resources[resource] = true;
 		}
 		else {
 			setTimeout(function() {
-				watchStylesheet(node, name);
+				watchStylesheet(node, resource);
 			}, 50);
 		}
 	};
