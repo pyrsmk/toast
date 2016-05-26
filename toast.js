@@ -7,7 +7,7 @@
     root.toast = factory();
   }
 }(this, function() {
-/*! toast 2.1.0 (https://github.com/pyrsmk/toast) */
+/*! toast 2.1.1 (https://github.com/pyrsmk/toast) */
 
 var handled_resources = {};
 

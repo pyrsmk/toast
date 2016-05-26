@@ -1,7 +1,7 @@
 {
   "name": "pyrsmk-toast",
   "description": "A simple CSS/JS resource loader",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "author": "Aurélien Delogu <pyrsmk@dreamysource.fr> (http://dreamysource.fr)",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "url": "https://github.com/pyrsmk/toast/issues",
     "email": "dev@dreamysource.fr"
   },
-  "homepage": "http://dreamysource.fr/product/toast",
+  "homepage": "http://dreamysource.io/project/toast",
   "devDependencies": {
     "gulp": "^3.8.11",
     "gulp-jshint": "^1.11.0",
