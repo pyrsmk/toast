@@ -1,8 +1,6 @@
-/*! toast 2.1.1 (https://github.com/pyrsmk/toast) */
-
 var handled_resources = {};
 
-function toast() {
+function Toast() {
 	var head = document.getElementsByTagName('head')[0],
 		
 	// Load as much resources as we can
@@ -61,7 +59,6 @@ function toast() {
 				// Create SCRIPT element
 				node = document.createElement('script');
 				node.src = resource;
-				node.type = 'text/javascript';
 				head.appendChild(node);
 				// Watch loading state
 				var version = navigator.appVersion.match(/MSIE (\d)/);
@@ -70,6 +67,7 @@ function toast() {
 					node.onreadystatechange = function() {
 						if(/ded|co/.test(this.readyState)) {
 							handled_resources[resource] = true;
+                            node.onreadystatechange = null;
 						}
 					};
 				}
@@ -77,6 +75,7 @@ function toast() {
 					// Other browsers
 					node.onload = function() {
 						handled_resources[resource] = true;
+                        node.onload = null;
 					};
 				}
 				break;

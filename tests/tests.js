@@ -37,7 +37,7 @@ QUnit.test('Several resources', function(assert) {
 		function() {
 			assert.ok(typeof jQuery == 'function', 'jQuery loaded');			
 			assert.ok(typeof qwest == 'object', 'qwest loaded [explicit]');
-			assert.ok(typeof Horizon == 'object', 'Horizon loaded');
+			assert.ok(typeof Horizon == 'function', 'Horizon loaded');
 			assert.ok(document.styleSheets.length == 3, 'Google font loaded [explicit]');
 			done1();
 			

@@ -1,7 +1,7 @@
 {
   "name": "toast",
   "description": "A simple CSS/JS resource loader",
-  "main": "toast.js",
+  "main": "lib/toast.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/pyrsmk/toast.git"
@@ -22,7 +22,7 @@
     ".gitignore",
     "nodes_modules/",
     "tests/",
-    "Gruntfile.js",
+    "gulpfile.js",
     "package.json"
   ]
 }

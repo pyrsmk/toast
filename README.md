@@ -1,4 +1,4 @@
-toast 2.1.1
+toast 2.2.0
 ===========
 
 Toast is a tiny resource loader for JS and CSS files.
@@ -11,13 +11,7 @@ You can pick the minified library or install it with :
 ```
 npm install pyrsmk-toast
 bower install toast
-jam install pyrsmk-toast
 ```
-
-Changes from v1
----------------
-
-Be careful! The loading state detector has been redesigned and additional loading verification callbacks have been dropped.
 
 Syntax
 ------
