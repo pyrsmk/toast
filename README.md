@@ -51,12 +51,13 @@ If you need to ensure that a script is fully loaded before another one (per exam
 
 ```js
 toast(
-    'jquery.js',
-    function() {},
-    'jquery-plugin.js',
+	'jquery.js',
+	function() {},
+	'jquery-plugin.js',
 	function() {
 		// Use jQuery and its plugin
 	}
+);
 ```
 
 Define resource type explicitly
