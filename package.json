@@ -1,13 +1,12 @@
 {
   "name": "pyrsmk-toast",
   "description": "A simple CSS/JS resource loader",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "author": "Aurélien Delogu <pyrsmk@dreamysource.fr> (http://dreamysource.fr)",
   "repository": {
     "type": "git",
     "url": "https://github.com/pyrsmk/toast.git"
   },
-  "main": "lib/toast.js",
   "keywords": [
     "css",
     "js",
@@ -19,19 +18,18 @@
     "email": "dev@dreamysource.fr"
   },
   "homepage": "http://dreamysource.io/project/toast",
+  "main": "dist/toast.js",
+  "entryPoint": "src/Toast.ts",
+  "bundleName": "toast",
+  "files": ["dist"],
+  "scripts": {
+    "watch": "rollup -cw",
+    "build": "rollup -c"
+  },
   "devDependencies": {
-    "gulp": "^3.9.0",
-    "gulp-add-src": "^0.2.0",
-    "gulp-concat": "^2.6.0",
-    "gulp-eslint": "^3.0.1",
-    "gulp-flowtype": "^1.0.0",
-    "gulp-rename": "^1.2.2",
-    "gulp-replace": "^0.5.3",
-    "gulp-shell": "^0.4.2",
-    "gulp-uglify": "^2.0.0",
-    "gulp-umd": "^0.2.0",
-    "lodash": "^4.16.4",
-    "resolve": "^1.1.7",
-    "umd-templates": "0.0.3"
+    "rollup": "^1.9.0",
+    "rollup-plugin-typescript2": "^0.20.1",
+    "rollup-plugin-uglify": "^6.0.2",
+    "typescript": "^3.4.1"
   }
 }

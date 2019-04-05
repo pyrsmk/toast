@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "outDir": "dist",
+        //"declaration": true,
+        //"declarationDir": "dist",
+        "lib": ["es6", "dom"],
+        "module": "es6",
+        "target": "es5",
+        "strictNullChecks": true,
+        "removeComments": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true
+    },
+    "include": ["src"]
+}
