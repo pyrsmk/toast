@@ -21,7 +21,8 @@
   "main": "dist/toast.js",
   "entryPoint": "src/Toast.ts",
   "bundleName": "toast",
-  "files": ["dist"],
+  "files": ["dist/"],
+  "types": "types/",
   "scripts": {
     "watch": "rollup -cw",
     "build": "rollup -c"

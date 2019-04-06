@@ -10,10 +10,6 @@ export default {
             format: 'umd',
             name: pkg.bundleName
         },
-        /*{
-            file: pkg.module,
-            format: 'es',
-        },*/
     ],
     external: [
         ...Object.keys(pkg.dependencies || {}),
@@ -22,6 +18,7 @@ export default {
     plugins: [
         typescript({
             typescript: require('typescript'),
+            useTsconfigDeclarationDir : true
         }),
         uglify(),
     ],
