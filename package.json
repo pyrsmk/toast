@@ -19,18 +19,28 @@
   },
   "homepage": "http://dreamysource.io/project/toast",
   "main": "dist/toast.js",
-  "entryPoint": "src/Toast.ts",
-  "bundleName": "toast",
-  "files": ["dist/"],
+  "files": [
+    "dist/"
+  ],
   "types": "types/",
   "scripts": {
-    "watch": "rollup -cw",
-    "build": "rollup -c"
+    "build": "node -r esm build.js"
   },
+  "rollupInputFile": "src/Toast.ts",
+  "rollupOutputName": "toast",
   "devDependencies": {
+    "@typescript-eslint/parser": "^1.6.0",
+    "@typescript-eslint/typescript-estree": "^1.6.0",
+    "chalk": "^2.4.2",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "esm": "^3.2.22",
+    "klaw": "^3.0.0",
+    "mkdirp": "^0.5.1",
     "rollup": "^1.9.0",
     "rollup-plugin-typescript2": "^0.20.1",
-    "rollup-plugin-uglify": "^6.0.2",
-    "typescript": "^3.4.1"
+    "typescript": "^3.4.1",
+    "uglify-js": "^3.5.3"
   }
 }

@@ -12,6 +12,5 @@
         "experimentalDecorators": true,
         "noImplicitAny": true,
         "noImplicitThis": true
-    },
-    "include": ["src"]
+    }
 }
