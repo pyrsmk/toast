@@ -7,14 +7,15 @@ import * as fs from 'fs'
 import * as path from 'path'
 import mkdirp from 'mkdirp'
 import chalk from 'chalk'
-import klaw from 'klaw'
 
 const info = message => {
     console.log(chalk.yellow(' * ') + chalk.green(message))
 }
 
 const error = message => {
-    console.log(chalk.yellow(' ! ') + chalk.red(message))
+    if (message) {
+        console.log(chalk.yellow(' ! ') + chalk.red(message))
+    }
 }
 
 const lint = options => {
@@ -23,16 +24,13 @@ const lint = options => {
     })
     const formatter = eslint.getFormatter()
     return new Promise((resolve, reject) => {
-        klaw(options.dir)
-            .on('data', item => {
-                if (item.stats.isFile()) {
-                    const results = eslint.executeOnFiles([item.path]).results
-                    console.log(formatter(results))
-                    if (results.length) reject()
-                }
-            })
-            .on('end', resolve)
-            .on('error', error => reject(error.message))
+        const results = eslint.executeOnFiles([
+            options.glob,
+            'build.js',
+        ]).results
+        console.log(formatter(results))
+        if (results.length) reject()
+        resolve()
     })
 }
 
@@ -86,7 +84,7 @@ const minify = options => {
 
 info('Linting TypeScript modules...')
 lint({
-    dir: path.dirname(config.buildInput),
+    glob: path.dirname(config.buildInput) + '/**',
 }).then(() => {
     info('Bundling TypeScript modules...')
     bundle({
@@ -108,8 +106,8 @@ lint({
                 to: config.buildTestOutput,
                 sourcemap: true,
                 filename: config.buildBundleName + '.js',
-            }).then(() => {
-                info('Done.')
+            }).catch(reason => {
+                error(reason)
             })
         }).catch(reason => {
             error(reason)
