@@ -1,7 +1,8 @@
 import ResourcesInterface from './ResourcesInterface';
 declare class Toast implements ResourcesInterface {
-    load(urls: Array<string>): Promise<string[]>;
+    load(urls: string[]): Promise<string[]>;
     css(url: string): Promise<string>;
     js(url: string): Promise<string>;
 }
-export default Toast;
+declare const _default: Toast;
+export default _default;

@@ -1,3 +1,4 @@
 *.d.ts
 *.min.js
 dist/**
+tests/**

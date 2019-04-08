@@ -17,7 +17,7 @@ class Toast implements ResourcesInterface {
         return Promise.all(
             urls.map((url): Promise<string> | null => {
                 if (url.trim() === '') {
-                    console.warn('An empty URL has been passed, bypassing it')
+                    console.warn('[toast] an empty URL has been provided, please fix it')
                     return null
                 }
                 switch (url.split('.').pop()!.toLowerCase()) {
@@ -26,7 +26,7 @@ class Toast implements ResourcesInterface {
                     case 'js':
                         return that.js(url)
                     default:
-                        console.warn(`Unable to detect extension for '${url}' URL, please use toast.js() or toast.css() to load this resource`)
+                        console.warn(`[toast] unable to detect extension for '${url}' URL, please use toast.js() or toast.css()`)
                         return null
                 }
             }).filter(

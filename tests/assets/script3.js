@@ -1,0 +1,1 @@
+var universeResponse = universe / universeDivider

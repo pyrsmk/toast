@@ -42,15 +42,22 @@
         function Toast() {
         }
         Toast.prototype.load = function (urls) {
-            var _this = this;
+            var that = this;
             return Promise.all(urls.map(function (url) {
-                switch (url.split('.').pop()) {
-                    case 'css':
-                        return _this.css(url);
-                    case 'js':
-                        return _this.js(url);
+                if (url.trim() === '') {
+                    console.warn('[toast] an empty URL has been provided, please fix it');
+                    return null;
                 }
-            }).filter(function (promise) { return promise !== undefined; }));
+                switch (url.split('.').pop().toLowerCase()) {
+                    case 'css':
+                        return that.css(url);
+                    case 'js':
+                        return that.js(url);
+                    default:
+                        console.warn("[toast] unable to detect extension for '" + url + "' URL, please use toast.js() or toast.css()");
+                        return null;
+                }
+            }).filter(function (promise) { return promise !== null; }));
         };
         Toast.prototype.css = function (url) {
             return (new CssResource()).load(url);
@@ -60,7 +67,8 @@
         };
         return Toast;
     }());
+    var Toast$1 = new Toast();
 
-    return Toast;
+    return Toast$1;
 
 }));

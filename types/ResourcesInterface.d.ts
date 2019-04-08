@@ -1,4 +1,3 @@
-interface ResourcesInterface {
-    load(urls: Array<string>): Promise<string[]>;
+export default interface ResourcesInterface {
+    load(urls: string[]): Promise<string[]>;
 }
-export default ResourcesInterface;
