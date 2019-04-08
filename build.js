@@ -25,34 +25,36 @@ const lint = options => {
     const formatter = eslint.getFormatter()
     return new Promise((resolve, reject) => {
         const { results } = eslint.executeOnFiles([options.glob])
-        console.log(formatter(results))
-        if (results.length) reject()
+        const errors = results.reduce((value, item) => value + item.errorCount, 0)
+        if (errors) {
+            console.log(formatter(results))
+            reject()
+        }
         resolve()
     })
 }
 
 const bundle = options => new Promise((resolve, reject) => {
-    rollup
-        .rollup({
-            input: options.input,
-            plugins: [
-                typescript({
-                    useTsconfigDeclarationDir: true,
-                }),
-            ],
-        })
-        .then(bundler => {
-            bundler.write({
-                file: options.output,
-                format: 'umd',
-                name: options.name,
-            }).then(
-                resolve,
-            ).catch(
-                reject,
-            )
-        })
-        .catch(reject)
+    rollup.rollup({
+        input: options.input,
+        plugins: [
+            typescript({
+                useTsconfigDeclarationDir: true,
+            }),
+        ],
+    }).then(bundler => {
+        bundler.write({
+            file: options.output,
+            format: 'umd',
+            name: options.name,
+        }).then(
+            resolve,
+        ).catch(
+            reject,
+        )
+    }).catch(
+        reject
+    )
 })
 
 const minify = options => new Promise((resolve, reject) => {
