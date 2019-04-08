@@ -26,8 +26,11 @@
   "scripts": {
     "build": "node -r esm build.js"
   },
-  "rollupInputFile": "src/Toast.ts",
-  "rollupOutputName": "toast",
+  "buildInput": "src/Toast.ts",
+  "buildOutput": "dist/toast.js",
+  "buildMinOutput": "dist/toast.min.js",
+  "buildTestOutput": "tests/lib/toast.min.js",
+  "buildBundleName": "toast",
   "devDependencies": {
     "@typescript-eslint/parser": "^1.6.0",
     "@typescript-eslint/typescript-estree": "^1.6.0",
