@@ -1,34 +1,38 @@
-import ResourcesInterface from './ResourcesInterface';
-import CssResource from './CssResource';
-import JsResource from './JsResource';
+import ResourcesInterface from './ResourcesInterface'
+import CssResource from './CssResource'
+import JsResource from './JsResource'
 
 /**
  * Toast facade
  */
-class Toast implements ResourcesInterface
-{
+class Toast implements ResourcesInterface {
     /**
      * Load several resources from URLs
      *
      * @param {Array<string>} urls
      * @return {Promise<string[]>}
      */
-    load(urls: Array<string>): Promise<string[]>
-    {
+    public load(urls: string[]): Promise<string[]> {
+        const that = this
         return Promise.all(
-            <Promise<string>[]> urls.map(
-                url => {
-                    switch (url.split('.').pop()) {
-                        case 'css':
-                            return this.css(url);
-                        case 'js':
-                            return this.js(url);
-                    }
+            urls.map((url): Promise<string> | null => {
+                if (url.trim() === '') {
+                    console.warn('An empty URL has been passed, bypassing it')
+                    return null
                 }
-            ).filter(
-                promise => promise !== undefined
-            )
-        );
+                switch (url.split('.').pop()!.toLowerCase()) {
+                    case 'css':
+                        return that.css(url)
+                    case 'js':
+                        return that.js(url)
+                    default:
+                        console.warn(`Unable to detect extension for '${url}' URL, please use toast.js() or toast.css() to load this resource`)
+                        return null
+                }
+            }).filter(
+                (promise): boolean => promise !== null
+            ) as Promise<string>[]
+        )
     }
 
     /**
@@ -37,9 +41,8 @@ class Toast implements ResourcesInterface
      * @param {string} url
      * @return {Promise<string>}
      */
-    css(url: string): Promise<string>
-    {
-        return (new CssResource()).load(url);
+    public css(url: string): Promise<string> {
+        return (new CssResource()).load(url)
     }
 
     /**
@@ -48,10 +51,9 @@ class Toast implements ResourcesInterface
      * @param {string} url
      * @return {Promise<string>}
      */
-    js(url: string): Promise<string>
-    {
-        return (new JsResource()).load(url);
+    public js(url: string): Promise<string> {
+        return (new JsResource()).load(url)
     }
 }
 
-export default Toast;
+export default new Toast()

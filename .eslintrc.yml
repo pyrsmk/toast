@@ -1,0 +1,59 @@
+---
+extends:
+    - airbnb-base
+    - plugin:@typescript-eslint/recommended
+
+parser: '@typescript-eslint/parser'
+
+plugins:
+    - '@typescript-eslint'
+
+env:
+    browser: true
+    es6: true
+
+parserOptions:
+    sourceType: 'module'
+
+settings:
+    import/resolver:
+        node:
+            extensions:
+                - .js
+                - .jsx
+                - .ts
+                - .tsx
+    import/parsers:
+        '@typescript-eslint/parser':
+            - .ts
+            - .tsx
+
+rules:
+    no-console:
+        - warn
+        -
+            allow:
+                - warn
+                - error
+    linebreak-style: off
+    semi:
+        - error
+        - never
+    arrow-parens: off
+    class-methods-use-this: off
+    no-multiple-empty-lines:
+        - error
+        -
+            max: 1
+            maxEOF: 1
+    comma-dangle:
+        - error
+        -
+            arrays: always-multiline
+            objects: always-multiline
+            imports: never
+            exports: never
+            functions: ignore
+    no-nested-ternary: error
+    no-unneeded-ternary: error
+    '@typescript-eslint/no-non-null-assertion': off

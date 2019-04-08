@@ -1,8 +1,7 @@
 /**
  * Resource interface
  */
-interface ResourceInterface
-{
+export default interface ResourceInterface {
     /**
      * Load a resource from an URL
      *
@@ -11,5 +10,3 @@ interface ResourceInterface
      */
     load(url: string): Promise<string>;
 }
-
-export default ResourceInterface;
