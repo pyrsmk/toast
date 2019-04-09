@@ -39,6 +39,8 @@ rules:
     semi:
         - error
         - never
+        -
+            beforeStatementContinuationChars: always
     arrow-parens: off
     class-methods-use-this: off
     no-multiple-empty-lines:

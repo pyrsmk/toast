@@ -12,12 +12,13 @@ class JsResource implements ResourceInterface {
      */
     public load(url: string): Promise<string> {
         return new Promise(
-            (resolve): void => {
+            (resolve, reject): void => {
                 const node = document.createElement('script')
                 node.src = url
                 document.querySelector('head')!.appendChild(node)
                 node.onload = (): void => resolve()
-            },
+                node.onerror = (event): void => reject(event)
+            }
         )
     }
 }

@@ -57,9 +57,11 @@ describe('toast.load()', function () {
             done()
         })
     })
-    it('must have been executed', function () {
+    it('CSS must have been executed', function () {
         var rgb = getComputedStyle(document.querySelector('#test')).getPropertyValue('background-color')
         expect(rgb).to.equal('rgb(0, 0, 0)')
+    })
+    it('JS must have been executed', function () {
         expect(universeDivider).to.not.be.undefined
         expect(universeResponse).to.not.be.undefined
         expect(universeResponse).to.equal(42)
