@@ -2,7 +2,7 @@
     "compilerOptions": {
         "outDir": "dist/",
         "declaration": true,
-        "declarationDir": "types/",
+        "declarationDir": "dist/types/",
         "lib": ["es6", "dom"],
         "module": "es6",
         "target": "es5",

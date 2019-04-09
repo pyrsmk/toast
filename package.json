@@ -22,7 +22,7 @@
   "files": [
     "dist/"
   ],
-  "types": "types/",
+  "types": "dist/types/",
   "scripts": {
     "build": "node -r esm build.js"
   },
