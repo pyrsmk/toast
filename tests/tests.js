@@ -1,16 +1,21 @@
+/* eslint no-var: ["off"] */
+/* eslint func-names: ["off"] */
+/* eslint prefer-arrow-callback: ["off"] */
+/* eslint no-undef: ["off"] */
+
 var div = document.createElement('div')
 div.id = 'test'
 document.querySelector('body').appendChild(div)
 
 function getCss(style) {
-    /*console.log(`document.styleSheets.length = ${document.styleSheets.length}`)
+    /* console.log(`document.styleSheets.length = ${document.styleSheets.length}`)
     console.log(`sheet in node = ${'sheet' in node}`)
     if ('sheet' in node) {
         console.log(`cssRules in sheet = ${'cssRules' in node.sheet}`)
         if ('cssRules' in node.sheet) {
             console.log(`node.sheet.cssRules.length = ${node.sheet.cssRules.length}`)
         }
-    }*/
+    } */
     return getComputedStyle(document.querySelector('#test')).getPropertyValue(style)
 }
 
@@ -50,7 +55,6 @@ describe('toast.js()', function () {
         })
     })
     it('should have been executed', function () {
-        expect(universe).to.not.be.undefined
         expect(universe).to.equal(72)
     })
     it('should reject', function (done) {
@@ -61,7 +65,6 @@ describe('toast.js()', function () {
 })
 
 describe('toast.load()', function () {
-    // resolve
     it('should resolve', function (done) {
         toast.load([
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test3-script.js',
@@ -74,7 +77,6 @@ describe('toast.load()', function () {
         expect(getCss('margin-top')).to.equal('42px')
         expect(universe).to.equal(42)
     })
-    // empty string
     it('should reject for an empty string', function (done) {
         toast.load([
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test4-style1.css',
@@ -84,10 +86,6 @@ describe('toast.load()', function () {
             done()
         })
     })
-    it('empty string: first style should not have been executed', function () {
-        expect(getCss('margin-top')).to.equal('42px')
-    })
-    // unrecognized CSS type
     it('should reject for an unrecognized CSS type', function (done) {
         toast.load([
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test5-style1.css',
@@ -97,10 +95,6 @@ describe('toast.load()', function () {
             done()
         })
     })
-    it('unrecognized CSS type: first style should not have been executed', function () {
-        expect(getCss('margin-top')).to.equal('42px')
-    })
-    // unrecognized JS type
     it('should reject for an unrecognized JS type', function (done) {
         toast.load([
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test6-script1.js',
@@ -110,10 +104,6 @@ describe('toast.load()', function () {
             done()
         })
     })
-    it('unrecognized JS type: first script should not have been executed', function () {
-        expect(universe).to.equal(42)
-    })
-    // not found CSS file
     it('should reject for a not found CSS file', function (done) {
         this.timeout(10000)
         toast.load([
@@ -124,10 +114,6 @@ describe('toast.load()', function () {
             done()
         })
     })
-    it('not found CSS file: first style have been executed', function () {
-        expect(getCss('margin-top')).to.equal('26px')
-    })
-    // not found JS file
     it('should reject for a not found JS file', function (done) {
         this.timeout(10000)
         toast.load([
@@ -137,8 +123,5 @@ describe('toast.load()', function () {
         ]).catch(function () {
             done()
         })
-    })
-    it('not found JS file: first script have been executed', function () {
-        expect(universe).to.equal(26)
     })
 })

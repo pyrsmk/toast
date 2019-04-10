@@ -1,5 +1,5 @@
 *.d.ts
 *.min.js
 dist/**
-tests/**
-karma.conf.js
+tests/lib/**
+tests/s3/**
