@@ -17,7 +17,7 @@ class JsResource implements ResourceInterface {
                 node.src = url
                 document.querySelector('head')!.appendChild(node)
                 node.onload = (): void => resolve()
-                node.onerror = (event): void => reject(event)
+                node.onerror = (): void => reject()
             }
         )
     }

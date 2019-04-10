@@ -16,10 +16,10 @@ class Toast implements ResourcesInterface {
         const that = this
         return Promise.all(
             urls.map(
-                (url): Promise<string> | null => {
+                (url): Promise<string> => {
                     if (url.trim() === '') {
-                        console.warn('[toast] an empty URL has been provided, please fix it to avoid this message')
-                        return null
+                        console.error('[toast] loading aborted: an empty string has been provided')
+                        return Promise.reject()
                     }
                     switch (url.split('.').pop()!.toLowerCase()) {
                         case 'css':
@@ -27,13 +27,11 @@ class Toast implements ResourcesInterface {
                         case 'js':
                             return that.js(url)
                         default:
-                            console.warn(`[toast] unable to detect extension for '${url}' URL, please use toast.js() or toast.css() instead`)
-                            return null
+                            console.error(`[toast] loading aborted: unable to detect extension for '${url}', please use toast.js() or toast.css() instead`)
+                            return Promise.reject()
                     }
                 }
-            ).filter(
-                (promise): boolean => promise !== null
-            ) as Promise<string>[]
+            )
         )
     }
 

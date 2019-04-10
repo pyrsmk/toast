@@ -1,10 +1,8 @@
-toast 3
-=======
+# toast 3
 
 Toast is a tiny resource loader for JS and CSS files.
 
-Install
--------
+## Install
 
 You can pick the minified library in `dist/` or install with :
 
@@ -18,7 +16,10 @@ or
 bower install toast
 ```
 
-License
--------
+## Compatibility
+
+https://pie.gd/test/script-link-events/
+
+## License
 
 Licensed under the [MIT license](http://dreamysource.mit-license.org).

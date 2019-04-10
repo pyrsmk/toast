@@ -36,6 +36,10 @@ rules:
                 - warn
                 - error
     linebreak-style: off
+    max-len:
+        - warn
+        -
+            100
     semi:
         - error
         - never

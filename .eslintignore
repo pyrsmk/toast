@@ -2,3 +2,4 @@
 *.min.js
 dist/**
 tests/**
+karma.conf.js

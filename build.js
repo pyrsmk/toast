@@ -25,10 +25,12 @@ const lint = options => {
     const formatter = eslint.getFormatter()
     return new Promise((resolve, reject) => {
         const { results } = eslint.executeOnFiles([options.glob])
-        const errors = results.reduce((value, item) => value + item.errorCount, 0)
-        if (errors) {
+        if (results.reduce((value, item) => value + item.errorCount, 0)) {
             console.log(formatter(results))
             reject()
+        }
+        if (results.reduce((value, item) => value + item.warningCount, 0)) {
+            console.log(formatter(results))
         }
         resolve()
     })

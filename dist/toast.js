@@ -12,14 +12,9 @@
                 var node = document.createElement('link');
                 node.rel = 'stylesheet';
                 node.href = url;
-                node.onerror = function (event) { return reject(event); };
                 document.querySelector('head').appendChild(node);
-                var verify = setInterval(function () {
-                    if ('sheet' in node) {
-                        clearInterval(verify);
-                        resolve();
-                    }
-                }, 50);
+                node.onload = function () { return resolve(); };
+                node.onerror = function () { return reject(); };
             });
         };
         return CssResource;
@@ -34,7 +29,7 @@
                 node.src = url;
                 document.querySelector('head').appendChild(node);
                 node.onload = function () { return resolve(); };
-                node.onerror = function (event) { return reject(event); };
+                node.onerror = function () { return reject(); };
             });
         };
         return JsResource;
@@ -47,8 +42,8 @@
             var that = this;
             return Promise.all(urls.map(function (url) {
                 if (url.trim() === '') {
-                    console.warn('[toast] an empty URL has been provided, please fix it to avoid this message');
-                    return null;
+                    console.error('[toast] loading aborted: an empty string has been provided');
+                    return Promise.reject();
                 }
                 switch (url.split('.').pop().toLowerCase()) {
                     case 'css':
@@ -56,10 +51,10 @@
                     case 'js':
                         return that.js(url);
                     default:
-                        console.warn("[toast] unable to detect extension for '" + url + "' URL, please use toast.js() or toast.css() instead");
-                        return null;
+                        console.error("[toast] loading aborted: unable to detect extension for '" + url + "', please use toast.js() or toast.css() instead");
+                        return Promise.reject();
                 }
-            }).filter(function (promise) { return promise !== null; }));
+            }));
         };
         Toast.prototype.css = function (url) {
             return (new CssResource()).load(url);

@@ -16,9 +16,10 @@ class CssResource implements ResourceInterface {
                 const node = document.createElement('link')
                 node.rel = 'stylesheet'
                 node.href = url
-                node.onerror = (event): void => reject(event)
                 document.querySelector('head')!.appendChild(node)
-                const verify = setInterval(
+                node.onload = (): void => resolve()
+                node.onerror = (): void => reject()
+                /* const verify = setInterval(
                     (): void => {
                         if ('sheet' in node) {
                             clearInterval(verify)
@@ -26,7 +27,7 @@ class CssResource implements ResourceInterface {
                         }
                     },
                     50
-                )
+                ) */
             }
         )
     }
