@@ -8,14 +8,6 @@ div.id = 'test'
 document.querySelector('body').appendChild(div)
 
 function getCss(style) {
-    /* console.log(`document.styleSheets.length = ${document.styleSheets.length}`)
-    console.log(`sheet in node = ${'sheet' in node}`)
-    if ('sheet' in node) {
-        console.log(`cssRules in sheet = ${'cssRules' in node.sheet}`)
-        if ('cssRules' in node.sheet) {
-            console.log(`node.sheet.cssRules.length = ${node.sheet.cssRules.length}`)
-        }
-    } */
     return getComputedStyle(document.querySelector('#test')).getPropertyValue(style)
 }
 

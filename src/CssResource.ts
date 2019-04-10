@@ -19,15 +19,6 @@ class CssResource implements ResourceInterface {
                 document.querySelector('head')!.appendChild(node)
                 node.onload = (): void => resolve()
                 node.onerror = (): void => reject()
-                /* const verify = setInterval(
-                    (): void => {
-                        if ('sheet' in node) {
-                            clearInterval(verify)
-                            resolve()
-                        }
-                    },
-                    50
-                ) */
             }
         )
     }

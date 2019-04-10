@@ -26,7 +26,11 @@
   "scripts": {
     "build": "node -r esm build.js",
     "tunnel": "LT -user $LT_USERNAME -key $LT_ACCESS_KEY",
-    "test": "./node_modules/karma/bin/karma start"
+    "test": "./node_modules/karma/bin/karma start",
+    "chrome": "./node_modules/karma/bin/karma start --browsers lambda_chrome",
+    "firefox": "./node_modules/karma/bin/karma start --browsers lambda_firefox",
+    "ie11": "./node_modules/karma/bin/karma start --browsers lambda_ie11",
+    "ie10": "./node_modules/karma/bin/karma start --browsers lambda_ie10"
   },
   "buildInput": "src/Toast.ts",
   "buildOutput": "dist/toast.js",
