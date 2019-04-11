@@ -48,6 +48,7 @@ describe('toast.css()', function () {
         expect(toast.css('')).to.be.an.instanceof(Promise)
     })
     it('should resolve', function (done) {
+        this.timeout(10000)
         toast.css('https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test1-style.css').then(function () {
             done()
         })
@@ -56,6 +57,7 @@ describe('toast.css()', function () {
         expect(getCss('margin-top')).to.equal('72px')
     })
     it('should reject', function (done) {
+        this.timeout(10000)
         if (!linkOnErrorSupport) this.skip()
         toast.css('notfound.css').catch(function () {
             done()
@@ -71,6 +73,7 @@ describe('toast.js()', function () {
         expect(toast.css('')).to.be.an.instanceof(Promise)
     })
     it('should resolve', function (done) {
+        this.timeout(10000)
         toast.js('https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test2-script.js').then(function () {
             done()
         })
@@ -79,6 +82,7 @@ describe('toast.js()', function () {
         expect(universe).to.equal(72)
     })
     it('should reject', function (done) {
+        this.timeout(10000)
         toast.js('notfound.js').catch(function () {
             done()
         })
@@ -90,6 +94,7 @@ describe('toast.js()', function () {
 */
 describe('toast.load()', function () {
     it('should resolve', function (done) {
+        this.timeout(10000)
         toast.load([
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test3-script.js',
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test3-style.css',
@@ -102,6 +107,7 @@ describe('toast.load()', function () {
         expect(universe).to.equal(42)
     })
     it('should reject for an empty string', function (done) {
+        this.timeout(10000)
         toast.load([
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test4-style1.css',
             '',
@@ -111,6 +117,7 @@ describe('toast.load()', function () {
         })
     })
     it('should reject for an unrecognized CSS type', function (done) {
+        this.timeout(10000)
         toast.load([
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test5-style1.css',
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test5-style2',
@@ -120,6 +127,7 @@ describe('toast.load()', function () {
         })
     })
     it('should reject for an unrecognized JS type', function (done) {
+        this.timeout(10000)
         toast.load([
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test6-script1.js',
             'https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test6-script2',
