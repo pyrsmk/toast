@@ -16,9 +16,9 @@ class CssResource implements ResourceInterface {
                 const node = document.createElement('link')
                 node.rel = 'stylesheet'
                 node.href = url
-                document.querySelector('head')!.appendChild(node)
                 node.onload = (): void => resolve()
                 node.onerror = (): void => reject()
+                document.querySelector('head')!.appendChild(node)
             }
         )
     }

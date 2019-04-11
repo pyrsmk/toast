@@ -12,9 +12,9 @@
                 var node = document.createElement('link');
                 node.rel = 'stylesheet';
                 node.href = url;
-                document.querySelector('head').appendChild(node);
                 node.onload = function () { return resolve(); };
                 node.onerror = function () { return reject(); };
+                document.querySelector('head').appendChild(node);
             });
         };
         return CssResource;
@@ -27,9 +27,9 @@
             return new Promise(function (resolve, reject) {
                 var node = document.createElement('script');
                 node.src = url;
-                document.querySelector('head').appendChild(node);
                 node.onload = function () { return resolve(); };
                 node.onerror = function () { return reject(); };
+                document.querySelector('head').appendChild(node);
             });
         };
         return JsResource;
