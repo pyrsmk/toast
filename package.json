@@ -26,11 +26,12 @@
   "scripts": {
     "build": "node -r esm build.js",
     "tunnel": "LT -user $LT_USERNAME -key $LT_ACCESS_KEY",
-    "test": "./node_modules/karma/bin/karma start",
-    "chrome": "./node_modules/karma/bin/karma start --browsers lambda_chrome",
-    "firefox": "./node_modules/karma/bin/karma start --browsers lambda_firefox",
-    "ie11": "./node_modules/karma/bin/karma start --browsers lambda_ie11",
-    "ie10": "./node_modules/karma/bin/karma start --browsers lambda_ie10"
+    "test": "node -r esm node_modules/karma/bin/karma start",
+    "chrome": "node -r esm node_modules/karma/bin/karma start --browsers lambda_chrome",
+    "firefox": "node -r esm node_modules/karma/bin/karma start --browsers lambda_firefox",
+    "ie11": "node -r esm node_modules/karma/bin/karma start --browsers lambda_ie11",
+    "ie10": "node -r esm node_modules/karma/bin/karma start --browsers lambda_ie10",
+    "ie9": "node -r esm node_modules/karma/bin/karma start --browsers lambda_ie9"
   },
   "buildInput": "src/Toast.ts",
   "buildOutput": "dist/toast.js",
@@ -47,6 +48,7 @@
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
     "esm": "^3.2.22",
+    "js-polyfills": "^0.1.42",
     "karma": "^4.0.1",
     "karma-mocha": "^1.3.0",
     "karma-mocha-reporter": "^2.2.5",

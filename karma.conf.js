@@ -1,10 +1,38 @@
 /* eslint @typescript-eslint/camelcase: ["off"] */
 
-const webdriverConfig = {
+import path from 'path'
+import pkg from './package.json'
+
+/*
+    Generate the generic test name
+*/
+const testName = `${pkg.name} ${pkg.version}`
+
+/*
+    Polyfill framework to add typed arrays capability for Mocha (IE9)
+*/
+const typedArrayPolyfill = files => {
+    files.unshift({
+        pattern: path.resolve('./node_modules/js-polyfills/typedarray.js'),
+        included: true,
+        served: true,
+        watched: false,
+    })
+    return files
+}
+typedArrayPolyfill.$inject = ['config.files']
+
+/*
+    Web Driver config
+*/
+const webDriverConfig = {
     hostname: 'hub.lambdatest.com',
     port: 80,
 }
 
+/*
+    Karma config
+*/
 module.exports = config => {
     config.set({
         // Base
@@ -16,10 +44,20 @@ module.exports = config => {
         ],
         logLevel: config.LOG_INFO,
         autoWatch: false,
-        // Mocha + Chai + Sinon
+        // Karma + Mocha + Chai + Sinon = <3
         frameworks: [
             'mocha',
             'sinon-chai',
+            'typedarray-polyfill',
+        ],
+        plugins: [
+            'karma-*',
+            {
+                'framework:typedarray-polyfill': [
+                    'factory',
+                    typedArrayPolyfill,
+                ],
+            },
         ],
         reporters: ['mocha'],
         client: {
@@ -37,25 +75,23 @@ module.exports = config => {
         browsers: [
             'lambda_chrome',
             'lambda_firefox',
-            /* Disabled: the connection to the server hangs on */
             // 'lambda_edge',
             'lambda_ie11',
             'lambda_ie10',
-            /* Disabled: lacks of Uint8Array support, needed by Mocha */
-            // 'lambda_ie9',
-            /* Disabled: the connection to the server hangs on */
+            'lambda_ie9',
             // 'lambda_safari',
         ],
         customLaunchers: {
             lambda_chrome: {
+                name: testName,
                 base: 'WebDriver',
-                config: webdriverConfig,
+                config: webDriverConfig,
                 browserName: 'Chrome',
                 platform: 'Windows 10',
                 version: '71.0',
                 tunnel: true,
-                video: false,
-                visual: false,
+                video: true,
+                visual: true,
                 network: true,
                 console: true,
                 user: process.env.LT_USERNAME,
@@ -63,15 +99,15 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_firefox: {
+                name: testName,
                 base: 'WebDriver',
-                config: webdriverConfig,
+                config: webDriverConfig,
                 browserName: 'Firefox',
                 platform: 'Windows 10',
                 version: '64.0',
-                name: 'Karma With Heartbeat',
                 tunnel: true,
-                video: false,
-                visual: false,
+                video: true,
+                visual: true,
                 network: true,
                 console: true,
                 user: process.env.LT_USERNAME,
@@ -79,15 +115,15 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_edge: {
+                name: testName,
                 base: 'WebDriver',
-                config: webdriverConfig,
+                config: webDriverConfig,
                 browserName: 'Microsoft Edge',
                 platform: 'Windows 8.1',
                 version: '18.0',
-                name: 'Karma With Heartbeat',
                 tunnel: true,
-                video: false,
-                visual: false,
+                video: true,
+                visual: true,
                 network: true,
                 console: true,
                 user: process.env.LT_USERNAME,
@@ -95,16 +131,16 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_ie11: {
+                name: testName,
                 base: 'WebDriver',
-                config: webdriverConfig,
+                config: webDriverConfig,
                 browserName: 'Internet Explorer',
                 platform: 'Windows 10',
                 version: '11.0',
                 'ie.compatibility': 11001,
-                name: 'Karma With Heartbeat',
                 tunnel: true,
-                video: false,
-                visual: false,
+                video: true,
+                visual: true,
                 network: true,
                 console: true,
                 user: process.env.LT_USERNAME,
@@ -112,16 +148,16 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_ie10: {
+                name: testName,
                 base: 'WebDriver',
-                config: webdriverConfig,
+                config: webDriverConfig,
                 browserName: 'Internet Explorer',
                 platform: 'Windows 7',
                 version: '10.0',
                 'ie.compatibility': 11001,
-                name: 'Karma With Heartbeat',
                 tunnel: true,
-                video: false,
-                visual: false,
+                video: true,
+                visual: true,
                 network: true,
                 console: true,
                 user: process.env.LT_USERNAME,
@@ -129,16 +165,16 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_ie9: {
+                name: testName,
                 base: 'WebDriver',
-                config: webdriverConfig,
+                config: webDriverConfig,
                 browserName: 'Internet Explorer',
                 platform: 'Windows 7',
                 version: '9.0',
                 'ie.compatibility': 11001,
-                name: 'Karma With Heartbeat',
                 tunnel: true,
-                video: false,
-                visual: false,
+                video: true,
+                visual: true,
                 network: true,
                 console: true,
                 user: process.env.LT_USERNAME,
@@ -146,15 +182,15 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_safari: {
+                name: testName,
                 base: 'WebDriver',
-                config: webdriverConfig,
+                config: webDriverConfig,
                 browserName: 'Safari',
                 platform: 'macOS Mojave',
                 version: '12.0',
-                name: 'Karma With Heartbeat',
                 tunnel: true,
-                video: false,
-                visual: false,
+                video: true,
+                visual: true,
                 network: true,
                 console: true,
                 user: process.env.LT_USERNAME,
