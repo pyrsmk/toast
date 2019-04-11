@@ -25,7 +25,7 @@
   "types": "dist/types/",
   "scripts": {
     "build": "node -r esm build.js",
-    "tunnel": "LT -user $LT_USERNAME -key $LT_ACCESS_KEY",
+    "tunnel": "LT -tunnelName karma -user $LT_USERNAME -key $LT_ACCESS_KEY",
     "test": "node -r esm node_modules/karma/bin/karma start",
     "chrome": "node -r esm node_modules/karma/bin/karma start --browsers lambda_chrome",
     "firefox": "node -r esm node_modules/karma/bin/karma start --browsers lambda_firefox",
