@@ -4,12 +4,7 @@ import path from 'path'
 import pkg from './package.json'
 
 /*
-    Generate the generic test name
-*/
-const testName = `${pkg.name} ${pkg.version}`
-
-/*
-    Polyfill framework to add typed arrays capability for Mocha (IE9)
+    Polyfill to add typed arrays for Mocha in IE9
 */
 const typedArrayPolyfill = files => {
     files.unshift({
@@ -62,9 +57,10 @@ module.exports = config => {
         reporters: ['mocha'],
         client: {
             chai: { includeStack: true },
-            clearContext: false, // LambdaTest
         },
         // LambdaTest
+        hostname: 'localhost.lambdatest.com',
+        port: '9876',
         singleRun: true,
         captureTimeout: 600000,
         retryLimit: 1,
@@ -75,15 +71,16 @@ module.exports = config => {
         browsers: [
             'lambda_chrome',
             'lambda_firefox',
-            // 'lambda_edge',
+            'lambda_edge',
             'lambda_ie11',
             'lambda_ie10',
             'lambda_ie9',
-            // 'lambda_safari',
+            'lambda_safari',
         ],
         customLaunchers: {
             lambda_chrome: {
-                name: testName,
+                name: pkg.name,
+                build: pkg.version,
                 base: 'WebDriver',
                 config: webDriverConfig,
                 browserName: 'Chrome',
@@ -100,7 +97,8 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_firefox: {
-                name: testName,
+                name: pkg.name,
+                build: pkg.version,
                 base: 'WebDriver',
                 config: webDriverConfig,
                 browserName: 'Firefox',
@@ -117,11 +115,12 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_edge: {
-                name: testName,
+                name: pkg.name,
+                build: pkg.version,
                 base: 'WebDriver',
                 config: webDriverConfig,
-                browserName: 'Microsoft Edge',
-                platform: 'Windows 8.1',
+                browserName: 'MicrosoftEdge',
+                platform: 'Windows 10',
                 version: '18.0',
                 tunnel: true,
                 tunnelName: 'karma',
@@ -134,7 +133,8 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_ie11: {
-                name: testName,
+                name: pkg.name,
+                build: pkg.version,
                 base: 'WebDriver',
                 config: webDriverConfig,
                 browserName: 'Internet Explorer',
@@ -152,7 +152,8 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_ie10: {
-                name: testName,
+                name: pkg.name,
+                build: pkg.version,
                 base: 'WebDriver',
                 config: webDriverConfig,
                 browserName: 'Internet Explorer',
@@ -170,7 +171,8 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_ie9: {
-                name: testName,
+                name: pkg.name,
+                build: pkg.version,
                 base: 'WebDriver',
                 config: webDriverConfig,
                 browserName: 'Internet Explorer',
@@ -188,7 +190,8 @@ module.exports = config => {
                 pseudoActivityInterval: 15000,
             },
             lambda_safari: {
-                name: testName,
+                name: pkg.name,
+                build: pkg.version,
                 base: 'WebDriver',
                 config: webDriverConfig,
                 browserName: 'Safari',

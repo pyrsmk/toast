@@ -29,6 +29,8 @@
     "test": "node -r esm node_modules/karma/bin/karma start",
     "chrome": "node -r esm node_modules/karma/bin/karma start --browsers lambda_chrome",
     "firefox": "node -r esm node_modules/karma/bin/karma start --browsers lambda_firefox",
+    "edge": "node -r esm node_modules/karma/bin/karma start --browsers lambda_edge",
+    "safari": "node -r esm node_modules/karma/bin/karma start --browsers lambda_safari",
     "ie11": "node -r esm node_modules/karma/bin/karma start --browsers lambda_ie11",
     "ie10": "node -r esm node_modules/karma/bin/karma start --browsers lambda_ie10",
     "ie9": "node -r esm node_modules/karma/bin/karma start --browsers lambda_ie9"
