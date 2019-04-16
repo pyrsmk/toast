@@ -36,10 +36,6 @@ rules:
                 - warn
                 - error
     linebreak-style: off
-    max-len:
-        - warn
-        -
-            100
     semi:
         - error
         - never
@@ -62,4 +58,9 @@ rules:
             functions: ignore
     no-nested-ternary: error
     no-unneeded-ternary: error
+    no-else-return: off
+    max-len:
+        - warn
+        -
+            code: 120
     '@typescript-eslint/no-non-null-assertion': off

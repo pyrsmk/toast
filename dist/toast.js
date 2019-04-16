@@ -8,13 +8,20 @@
         function CssResource() {
         }
         CssResource.prototype.load = function (url) {
+            var link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = url;
+            document.querySelector('head').appendChild(link);
+            return this.promise(link);
+        };
+        CssResource.prototype.listen = function (node) {
+            return this.load(node.href);
+        };
+        CssResource.prototype.promise = function (node) {
+            var link = node;
             return new Promise(function (resolve, reject) {
-                var node = document.createElement('link');
-                node.rel = 'stylesheet';
-                node.href = url;
-                node.onload = function () { return resolve(); };
-                node.onerror = function () { return reject(); };
-                document.querySelector('head').appendChild(node);
+                link.onload = function () { return resolve(link); };
+                link.onerror = function () { return reject(); };
             });
         };
         return CssResource;
@@ -24,12 +31,24 @@
         function JsResource() {
         }
         JsResource.prototype.load = function (url) {
+            var script = document.createElement('script');
+            script.src = url;
+            document.querySelector('head').appendChild(script);
+            return this.promise(script);
+        };
+        JsResource.prototype.listen = function (node) {
+            return this.load(node.src);
+        };
+        JsResource.prototype.promise = function (node) {
+            var script = node;
             return new Promise(function (resolve, reject) {
-                var node = document.createElement('script');
-                node.src = url;
-                node.onload = function () { return resolve(); };
-                node.onerror = function () { return reject(); };
-                document.querySelector('head').appendChild(node);
+                script.onload = function () { return resolve(script); };
+                script.onerror = function () { return reject(); };
+                script.onreadystatechange = function () {
+                    if (script.readyState === 'complete') {
+                        resolve(script);
+                    }
+                };
             });
         };
         return JsResource;
@@ -37,30 +56,46 @@
 
     var Toast = (function () {
         function Toast() {
+            this.name = '[Toast]';
         }
-        Toast.prototype.load = function (urls) {
+        Toast.prototype.all = function (items) {
+            var _this = this;
             var that = this;
-            return Promise.all(urls.map(function (url) {
-                if (url.trim() === '') {
-                    console.error('[toast] loading aborted: an empty string has been provided');
-                    return Promise.reject();
+            return Promise.all(items.map(function (item) {
+                if (typeof item === 'string') {
+                    switch (item.split('.').pop().toLowerCase()) {
+                        case 'css':
+                            return that.css(item);
+                        case 'js':
+                            return that.js(item);
+                        default:
+                            console.error(_this.name + " unable to detect extension of '" + item + "'");
+                            return Promise.reject();
+                    }
                 }
-                switch (url.split('.').pop().toLowerCase()) {
-                    case 'css':
-                        return that.css(url);
-                    case 'js':
-                        return that.js(url);
-                    default:
-                        console.error("[toast] loading aborted: unable to detect extension for '" + url + "', please use toast.js() or toast.css() instead");
-                        return Promise.reject();
+                else if (item instanceof HTMLLinkElement) {
+                    return that.css(item);
                 }
+                else if (item instanceof HTMLScriptElement) {
+                    return that.js(item);
+                }
+                console.error(_this.name + " unexpected error");
+                return Promise.reject();
             }));
         };
-        Toast.prototype.css = function (url) {
-            return (new CssResource()).load(url);
+        Toast.prototype.css = function (item) {
+            return this.resource(new CssResource(), item);
         };
-        Toast.prototype.js = function (url) {
-            return (new JsResource()).load(url);
+        Toast.prototype.js = function (item) {
+            return this.resource(new JsResource(), item);
+        };
+        Toast.prototype.resource = function (resource, item) {
+            if (typeof item === 'string') {
+                return resource.load(item);
+            }
+            else {
+                return resource.listen(item);
+            }
         };
         return Toast;
     }());

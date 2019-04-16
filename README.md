@@ -1,19 +1,13 @@
-# toast 3
+# toast v3
 
-Toast is a tiny resource loader for JS and CSS files.
+Toast is an asset loader for JS/CSS files.
+
+__This library is still in heavy development, please do not use__
 
 ## Install
 
-You can pick the minified library in `dist/` or install with :
-
 ```
-npm install pyrsmk-toast
-```
-
-or
-
-```
-bower install toast
+yarn add toast-loader
 ```
 
 ## Compatibility

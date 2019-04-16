@@ -1,5 +1,6 @@
 /* eslint import/no-extraneous-dependencies: ["off"] */
 /* eslint no-console: ["off"] */
+
 import { CLIEngine as Eslint } from 'eslint'
 import * as rollup from 'rollup'
 import typescript from 'rollup-plugin-typescript2'

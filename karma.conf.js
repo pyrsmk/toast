@@ -35,7 +35,11 @@ module.exports = config => {
         files: [
             'https://cdn.jsdelivr.net/npm/promise-polyfill@8/dist/polyfill.min.js',
             'tests/lib/toast.min.js',
-            'tests/tests.js',
+            'tests/utils.js',
+            'tests/tests.base.js',
+            'tests/tests.css.js',
+            'tests/tests.js.js',
+            'tests/tests.all.js',
         ],
         logLevel: config.LOG_INFO,
         autoWatch: false,

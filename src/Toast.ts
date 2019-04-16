@@ -1,58 +1,83 @@
-import ResourcesInterface from './ResourcesInterface'
+import FacadeInterface from './FacadeInterface'
+import ResourceInterface from './ResourceInterface'
 import CssResource from './CssResource'
 import JsResource from './JsResource'
 
 /**
  * Toast facade
  */
-class Toast implements ResourcesInterface {
+class Toast implements FacadeInterface {
+    /**
+     * @var {string} name
+     */
+    private name: string = '[toast]'
+
     /**
      * Load several resources from URLs
      *
-     * @param {Array<string>} urls
-     * @return {Promise<string[]>}
+     * @param {(string|HTMLLinkElement|HTMLScriptElement)[]} items
+     * @return {Promise<HTMLElement[]>}
      */
-    public load(urls: string[]): Promise<string[]> {
+    public all(items: (string|HTMLLinkElement|HTMLScriptElement)[]): Promise<HTMLElement[]> {
         const that = this
         return Promise.all(
-            urls.map(
-                (url): Promise<string> => {
-                    if (url.trim() === '') {
-                        console.error('[toast] loading aborted: an empty string has been provided')
-                        return Promise.reject()
+            items.map(
+                (item): Promise<HTMLElement> => {
+                    if (typeof item === 'string') {
+                        switch (item.split('.').pop()!.toLowerCase()) {
+                            case 'css':
+                                return that.css(item)
+                            case 'js':
+                                return that.js(item)
+                            default:
+                                console.error(`${this.name} unable to detect extension of '${item}'`)
+                                return Promise.reject()
+                        }
+                    } else if (item instanceof HTMLLinkElement) {
+                        return that.css(item)
+                    } else if (item instanceof HTMLScriptElement) {
+                        return that.js(item)
                     }
-                    switch (url.split('.').pop()!.toLowerCase()) {
-                        case 'css':
-                            return that.css(url)
-                        case 'js':
-                            return that.js(url)
-                        default:
-                            console.error(`[toast] loading aborted: unable to detect extension for '${url}', please use toast.js() or toast.css() instead`)
-                            return Promise.reject()
-                    }
+                    console.error(`${this.name} unexpected error`)
+                    return Promise.reject()
                 }
             )
         )
     }
 
     /**
-     * Load a CSS resource from an URL
+     * Load a CSS URL or a LINK node
      *
-     * @param {string} url
-     * @return {Promise<string>}
+     * @param {string|HTMLLinkElement} item
+     * @return {Promise<HTMLElement>}
      */
-    public css(url: string): Promise<string> {
-        return (new CssResource()).load(url)
+    public css(item: string|HTMLLinkElement): Promise<HTMLElement> {
+        return this.resource(new CssResource(), item)
     }
 
     /**
-     * Load a JS resource from an URL
+     * Load a JS URL or a SCRIPT node
      *
-     * @param {string} url
-     * @return {Promise<string>}
+     * @param {string|HTMLScriptElement} item
+     * @return {Promise<HTMLElement>}
      */
-    public js(url: string): Promise<string> {
-        return (new JsResource()).load(url)
+    public js(item: string|HTMLScriptElement): Promise<HTMLElement> {
+        return this.resource(new JsResource(), item)
+    }
+
+    /**
+     * Load an URL or listen to a node
+     *
+     * @param {ResourceInterface} resource
+     * @param {string|HTMLElement} item
+     * @return {Promise<HTMLElement>}
+     */
+    private resource(resource: ResourceInterface, item: string|HTMLElement): Promise<HTMLElement> {
+        if (typeof item === 'string') {
+            return resource.load(item)
+        } else {
+            return resource.listen(item)
+        }
     }
 }
 
