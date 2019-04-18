@@ -45,15 +45,15 @@ class JsResource implements ResourceInterface {
         const script = node
         return new Promise(
             (resolve, reject): void => {
-                script.onload = (): void => resolve(script)
-                script.onerror = (): void => reject()
+                script.addEventListener('load', (): void => resolve(script))
+                script.addEventListener('error', (): void => reject())
                 // Fix for IE10 which does not call onload()
                 // when attaching to an existent node
-                script.onreadystatechange = (): void => {
+                script.addEventListener('readystatechange', (): void => {
                     if (script.readyState === 'complete') {
                         resolve(script)
                     }
-                }
+                })
             }
         )
     }

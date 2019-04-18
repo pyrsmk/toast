@@ -20,8 +20,8 @@
         CssResource.prototype.promise = function (node) {
             var link = node;
             return new Promise(function (resolve, reject) {
-                link.onload = function () { return resolve(link); };
-                link.onerror = function () { return reject(); };
+                link.addEventListener('load', function () { return resolve(link); });
+                link.addEventListener('error', function () { return reject(); });
             });
         };
         return CssResource;
@@ -42,13 +42,13 @@
         JsResource.prototype.promise = function (node) {
             var script = node;
             return new Promise(function (resolve, reject) {
-                script.onload = function () { return resolve(script); };
-                script.onerror = function () { return reject(); };
-                script.onreadystatechange = function () {
+                script.addEventListener('load', function () { return resolve(script); });
+                script.addEventListener('error', function () { return reject(); });
+                script.addEventListener('readystatechange', function () {
                     if (script.readyState === 'complete') {
                         resolve(script);
                     }
-                };
+                });
             });
         };
         return JsResource;
@@ -56,7 +56,7 @@
 
     var Toast = (function () {
         function Toast() {
-            this.name = '[Toast]';
+            this.name = '[toast]';
         }
         Toast.prototype.all = function (items) {
             var _this = this;

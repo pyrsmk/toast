@@ -38,8 +38,16 @@ class CssResource implements ResourceInterface {
         const link = node
         return new Promise(
             (resolve, reject): void => {
-                link.onload = (): void => resolve(link)
-                link.onerror = (): void => reject()
+                /* link.onload = (): void => {
+                    const interval = setInterval((): void => {
+                        if ('cssRules' in document.styleSheets[document.styleSheets.length - 1]) {
+                            clearInterval(interval)
+                            resolve(link)
+                        }
+                    }, 10)
+                } */
+                link.addEventListener('load', (): void => resolve(link))
+                link.addEventListener('error', (): void => reject())
             }
         )
     }
