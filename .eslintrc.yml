@@ -29,6 +29,10 @@ settings:
             - .tsx
 
 rules:
+    max-len:
+        - warn
+        -
+            code: 120
     no-console:
         - warn
         -
@@ -36,18 +40,16 @@ rules:
                 - warn
                 - error
     linebreak-style: off
-    semi:
-        - error
-        - never
-        -
-            beforeStatementContinuationChars: always
-    arrow-parens: off
-    class-methods-use-this: off
     no-multiple-empty-lines:
         - error
         -
             max: 1
             maxEOF: 1
+    semi:
+        - error
+        - never
+        -
+            beforeStatementContinuationChars: always
     comma-dangle:
         - error
         -
@@ -56,11 +58,7 @@ rules:
             imports: never
             exports: never
             functions: ignore
+    class-methods-use-this: off
     no-nested-ternary: error
     no-unneeded-ternary: error
-    no-else-return: off
-    max-len:
-        - warn
-        -
-            code: 120
     '@typescript-eslint/no-non-null-assertion': off

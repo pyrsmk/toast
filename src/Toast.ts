@@ -75,9 +75,8 @@ class Toast implements FacadeInterface {
     private resource(resource: ResourceInterface, item: string|HTMLElement): Promise<HTMLElement> {
         if (typeof item === 'string') {
             return resource.load(item)
-        } else {
-            return resource.listen(item)
         }
+        return resource.listen(item)
     }
 }
 
