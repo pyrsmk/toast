@@ -1,0 +1,7 @@
+*.d.ts
+*.min.js
+dist/**
+tests/**
+karma.conf.js
+just-task.js
+tasks/**

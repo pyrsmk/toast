@@ -1,75 +1,120 @@
-toast 2.2.0
-===========
+# Toast v3
 
-Toast is a tiny resource loader for JS and CSS files.
+Toast is a promise-based asset loader for JS and CSS files. It aims to optimize web site performance by loading and deferring the needed assets only.
 
-Install
--------
+Since it have a small footprint Toast can be loaded as soon as possible on the `HEAD` tag.
 
-You can pick the minified library or install it with :
+As a side note: Toast is packaged as an UMD module.
 
+## Install
+
+```sh
+yarn add toast-loader
 ```
-npm install pyrsmk-toast
-bower install toast
-```
 
-Syntax
-------
-
-There's a big thing to have in mind: resources are loaded asynchronous until a callback is encountered. That said, let's dig in it. The library accept as many parameters as you want of the following types: a string (a resource's URL), an array (a resource's URL and a loading validation callback) or a function (an arbitrary callback).
-
-But some examples are better to understand the whole thing:
+## The API
 
 ```js
-// Load one css file for mobiles
-toast('css/mobiles.css');
+toast.css(url: string): Promise
+toast.js(url: string): Promise
+toast.all(urls: string[]): Promise
+```
 
-// Load several resources for desktops
-if(screen.width > 800) {
-    toast(
-        'css/screens.css',
-        'js/modernizr.js',
-        'js/classie.js'
-    );
+## Examples
+
+```js
+if (dark_mode === true) {
+    toast.css('styles/dark.css')
+} else {
+    toast.css('styles/light.css')
 }
-
-// Launch a callback when the CSS has been downloaded, and another when scripts have been downloaded too
-toast(
-    'css/screens.css',
-    function() {
-        log('screens.css downloaded');
-    },
-    'js/modernizr.js',
-    'js/classie.js',
-    function() {
-        log('modernizr & classie downloaded');
-    }
-);
 ```
-
-If you need to ensure that a script is fully loaded before another one (per example if you want to load a jQuery plugin, the plugin will throw an error if jQuery is not loaded yet), just put a callback between them.
 
 ```js
-toast(
-	'jquery.js',
-	function() {},
-	'jquery-plugin.js',
-	function() {
-		// Use jQuery and its plugin
-	}
-);
+toast.js('http://some.cdn.com/jquery.js').then(() => {
+    toast.js('http://some.cdn.com/jquery-myplugin.js').then(() => {
+        $('.someClass').myPlugin()
+    })
+})
 ```
-
-Define resource type explicitly
--------------------------------
-
-Toast is guessing your resource type by its extension. But sometimes, like with Google Fonts, there's no extension at the end of the URL. Then we'll need to set the resource type to help toast to load the resource as expected :
 
 ```js
-toast('[css]https://fonts.googleapis.com/css?family=Open+Sans');
+toast.all([
+    'assets/css/styles1.css',
+    'assets/css/styles2.css',
+    'assets/js/script1.js',
+    'assets/js/script2.js',
+    'assets/js/script3.js',
+]).then(() => {
+    console.log('Everything has been loaded, yay!')
+})
 ```
 
-License
--------
+## Browser compatibility
+
+IE9-IE11 and Edge never trigger `error` event on CSS loading if something went wrong. Keep this in mind when you're using `catch` promise block with Toast.
+
+If you want to look at some feature supporting details, you can take a look at this [compatibility table](https://pie.gd/test/script-link-events/).
+
+It worth noting that Toast has been designed to be compatible with modern browsers and IE9+. Supporting other older browsers would have a negative impact on the library size.
+
+## Development
+
+Install the dependencies with:
+
+```sh
+yarn install
+```
+
+Build the lib with:
+
+```sh
+yarn build
+```
+
+## Testing
+
+Tests are written with [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com/) and run with [Karma](https://karma-runner.github.io/latest/index.html) on [LambdaTest](https://www.lambdatest.com/).
+
+First, you will need to set up you're own environment:
+
+- create your account on LambdaTest
+- download the [tunnel software](https://www.lambdatest.com/support/docs/testing-locally-hosted-pages/), it will act as a gateway between Karma and LambdaTest
+- verify that the `LT` command is accessible (e.g. in the `PATH`)
+- get your credentials from the Automation page, they are located under the key icon
+- set them in your environment, per example in your `.bashrc`:
+
+```sh
+export LT_USERNAME="<your_username>"
+export LT_ACCESS_KEY="<your_access_key>"
+```
+
+Finally, you can run the tests with:
+
+```sh
+yarn test
+```
+
+They will be run under the following browsers:
+
+- Chrome 73
+- Firefox 66
+- Edge 18
+- IE 9-11
+- Safari 12
+
+If needed, you can run the tests under only one browser with:
+
+```sh
+yarn chrome
+yarn firefox
+yarn edge
+yarn ie11
+yarn ie10
+yarn ie9
+yarn safari
+```
+
+## License
 
 Licensed under the [MIT license](http://dreamysource.mit-license.org).
