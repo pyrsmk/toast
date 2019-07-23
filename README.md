@@ -58,6 +58,8 @@ toast.all([
 
 ## Browser compatibility
 
+Toast is using built-in promises. If you need to support IE9-11, you must add the [promise-polyfill](https://github.com/taylorhakes/promise-polyfill) library before loading Toast. Here's the compatibility table for the [Promise feature](https://www.caniuse.com/#feat=promises).
+
 IE9-IE11 and Edge never trigger `error` event on CSS loading if something went wrong. Keep this in mind when you're using `catch` promise block with Toast.
 
 If you want to look at some feature supporting details, you can take a look at this [compatibility table](https://pie.gd/test/script-link-events/).
