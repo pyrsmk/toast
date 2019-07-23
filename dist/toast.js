@@ -1,106 +1,63 @@
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-    typeof define === 'function' && define.amd ? define(factory) :
-    (global = global || self, global.toast = factory());
-}(this, function () { 'use strict';
+(function () {
+  "use strict";
 
-    var CssResource = (function () {
-        function CssResource() {
-        }
-        CssResource.prototype.load = function (url) {
-            var link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = url;
-            document.querySelector('head').appendChild(link);
-            return this.promise(link);
-        };
-        CssResource.prototype.listen = function (node) {
-            return this.load(node.href);
-        };
-        CssResource.prototype.promise = function (node) {
-            var link = node;
-            return new Promise(function (resolve, reject) {
-                link.addEventListener('load', function () { return resolve(link); });
-                link.addEventListener('error', function () { return reject(); });
-            });
-        };
-        return CssResource;
-    }());
+  var _$0 = this;
 
-    var JsResource = (function () {
-        function JsResource() {
-        }
-        JsResource.prototype.load = function (url) {
-            var script = document.createElement('script');
-            script.src = url;
-            document.querySelector('head').appendChild(script);
-            return this.promise(script);
-        };
-        JsResource.prototype.listen = function (node) {
-            return this.load(node.src);
-        };
-        JsResource.prototype.promise = function (node) {
-            var script = node;
-            return new Promise(function (resolve, reject) {
-                script.addEventListener('load', function () { return resolve(script); });
-                script.addEventListener('error', function () { return reject(); });
-                script.addEventListener('readystatechange', function () {
-                    if (script.readyState === 'complete') {
-                        resolve(script);
-                    }
-                });
-            });
-        };
-        return JsResource;
-    }());
+  var _7 = function () {};
 
-    var Toast = (function () {
-        function Toast() {
-            this.name = '[toast]';
-        }
-        Toast.prototype.all = function (items) {
-            var _this = this;
-            var that = this;
-            return Promise.all(items.map(function (item) {
-                if (typeof item === 'string') {
-                    switch (item.split('.').pop().toLowerCase()) {
-                        case 'css':
-                            return that.css(item);
-                        case 'js':
-                            return that.js(item);
-                        default:
-                            console.error(_this.name + " unable to detect extension of '" + item + "'");
-                            return Promise.reject();
-                    }
-                }
-                else if (item instanceof HTMLLinkElement) {
-                    return that.css(item);
-                }
-                else if (item instanceof HTMLScriptElement) {
-                    return that.js(item);
-                }
-                console.error(_this.name + " unexpected error");
-                return Promise.reject();
-            }));
-        };
-        Toast.prototype.css = function (item) {
-            return this.resource(new CssResource(), item);
-        };
-        Toast.prototype.js = function (item) {
-            return this.resource(new JsResource(), item);
-        };
-        Toast.prototype.resource = function (resource, item) {
-            if (typeof item === 'string') {
-                return resource.load(item);
-            }
-            else {
-                return resource.listen(item);
-            }
-        };
-        return Toast;
-    }());
-    var Toast$1 = new Toast();
+  var _1 = _7.prototype;
 
-    return Toast$1;
+  var _3 = function (urls) {
+    var _this = this;
 
-}));
+    return Promise.all(urls.map(function (url) {
+      switch (url.split('.').pop().toLowerCase()) {
+        case 'css':
+          return _this.css(url);
+
+        case 'js':
+          return _this.js(url);
+
+        default:
+          return Promise.reject(new Error("Unable to detect extension of '" + url + "'"));
+      }
+    }));
+  };
+
+  var _4 = function (url) {
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = url;
+    document.querySelector('head').appendChild(link);
+    return this.promise(link);
+  };
+
+  var _5 = function (url) {
+    var script = document.createElement('script');
+    script.src = url;
+    document.querySelector('head').appendChild(script);
+    return this.promise(script);
+  };
+
+  var _6 = function (element) {
+    return new Promise(function (resolve, reject) {
+      element.addEventListener('load', function () {
+        resolve(element);
+      });
+      element.addEventListener('error', function () {
+        reject();
+      });
+    });
+  };
+
+  var __constructor = function () {};
+
+  _1.all = _3;
+  _1.css = _4;
+  _1.js = _5;
+  _1.promise = _6;
+
+  var _0 = (__constructor.prototype = _1, new __constructor());
+
+  _$0.toast = _0;
+}).call(this);

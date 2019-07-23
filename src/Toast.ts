@@ -1,82 +1,73 @@
-import FacadeInterface from './FacadeInterface'
-import ResourceInterface from './ResourceInterface'
-import CssResource from './CssResource'
-import JsResource from './JsResource'
-
 /**
- * Toast facade
+ * Toast loader
  */
-class Toast implements FacadeInterface {
-    /**
-     * @var {string} name
-     */
-    private name: string = '[toast]'
-
+class Toast {
     /**
      * Load several resources from URLs
      *
-     * @param {(string|HTMLLinkElement|HTMLScriptElement)[]} items
+     * @param {string[]} urls
      * @return {Promise<HTMLElement[]>}
      */
-    public all(items: (string|HTMLLinkElement|HTMLScriptElement)[]): Promise<HTMLElement[]> {
-        const that = this
+    public all(urls: string[]): Promise<HTMLElement[]> {
         return Promise.all(
-            items.map(
-                (item): Promise<HTMLElement> => {
-                    if (typeof item === 'string') {
-                        switch (item.split('.').pop()!.toLowerCase()) {
-                            case 'css':
-                                return that.css(item)
-                            case 'js':
-                                return that.js(item)
-                            default:
-                                console.error(`${this.name} unable to detect extension of '${item}'`)
-                                return Promise.reject()
-                        }
-                    } else if (item instanceof HTMLLinkElement) {
-                        return that.css(item)
-                    } else if (item instanceof HTMLScriptElement) {
-                        return that.js(item)
+            urls.map(
+                (url): Promise<HTMLElement> => {
+                    switch (url.split('.').pop()!.toLowerCase()) {
+                        case 'css':
+                            return this.css(url)
+                        case 'js':
+                            return this.js(url)
+                        default:
+                            return Promise.reject(
+                                new Error(`Unable to detect extension of '${url}'`)
+                            )
                     }
-                    console.error(`${this.name} unexpected error`)
-                    return Promise.reject()
                 }
             )
         )
     }
 
     /**
-     * Load a CSS URL or a LINK node
+     * Load a CSS URL
      *
-     * @param {string|HTMLLinkElement} item
+     * @param {string} url
      * @return {Promise<HTMLElement>}
      */
-    public css(item: string|HTMLLinkElement): Promise<HTMLElement> {
-        return this.resource(new CssResource(), item)
+    public css(url: string): Promise<HTMLElement> {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        document.querySelector('head')!.appendChild(link)
+        return this.promise(link)
     }
 
     /**
-     * Load a JS URL or a SCRIPT node
+     * Load a JS URL
      *
-     * @param {string|HTMLScriptElement} item
+     * @param {string} url
      * @return {Promise<HTMLElement>}
      */
-    public js(item: string|HTMLScriptElement): Promise<HTMLElement> {
-        return this.resource(new JsResource(), item)
+    public js(url: string): Promise<HTMLElement> {
+        const script = document.createElement('script')
+        script.src = url
+        document.querySelector('head')!.appendChild(script)
+        return this.promise(script)
     }
 
     /**
-     * Load an URL or listen to a node
-     *
-     * @param {ResourceInterface} resource
-     * @param {string|HTMLElement} item
+     * Create a promise based on an HTMLElement
+     * @param {HTMLElement} element
      * @return {Promise<HTMLElement>}
      */
-    private resource(resource: ResourceInterface, item: string|HTMLElement): Promise<HTMLElement> {
-        if (typeof item === 'string') {
-            return resource.load(item)
-        }
-        return resource.listen(item)
+    private promise(element: HTMLElement): Promise<HTMLElement> {
+        return new Promise((resolve, reject): void => {
+            element.addEventListener('load', (): void => {
+                resolve(element)
+            })
+            element.addEventListener('error', (): void => {
+                reject()
+            })
+        })
     }
 }
 

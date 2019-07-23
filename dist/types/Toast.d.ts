@@ -1,10 +1,8 @@
-import FacadeInterface from './FacadeInterface';
-declare class Toast implements FacadeInterface {
-    private name;
-    all(items: (string | HTMLLinkElement | HTMLScriptElement)[]): Promise<HTMLElement[]>;
-    css(item: string | HTMLLinkElement): Promise<HTMLElement>;
-    js(item: string | HTMLScriptElement): Promise<HTMLElement>;
-    private resource;
+declare class Toast {
+    all(urls: string[]): Promise<HTMLElement[]>;
+    css(url: string): Promise<HTMLElement>;
+    js(url: string): Promise<HTMLElement>;
+    private promise;
 }
 declare const _default: Toast;
 export default _default;

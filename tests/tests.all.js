@@ -14,22 +14,6 @@ describe('toast.all()', function () {
         expect(universe).to.equal(42)
     })
 
-    it('should resolve for nodes', function (done) {
-        this.timeout(10000)
-        var style = utils.createLink('https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test9-style.css')
-        var script = utils.createScript('https://s3.eu-west-3.amazonaws.com/dreamysource/toast/test9-script.js')
-        utils.addToHead(style)
-        utils.addToHead(script)
-        toast.all([style, script]).then(function () {
-            done()
-        })
-    })
-
-    it('resolved nodes should have been executed', function () {
-        expect(utils.getCss('margin-top')).to.equal('-7200px')
-        expect(universe).to.equal(-7200)
-    })
-
     it('should reject for an empty string', function (done) {
         this.timeout(10000)
         toast.all([

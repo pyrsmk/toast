@@ -1,5 +1,5 @@
 export default interface FacadeInterface {
-    all(items: (string | HTMLLinkElement | HTMLScriptElement)[]): Promise<HTMLElement[]>;
-    css(item: string | HTMLLinkElement): Promise<HTMLElement>;
-    js(item: string | HTMLScriptElement): Promise<HTMLElement>;
+    all(urls: string[]): Promise<string[]>;
+    css(url: string): Promise<string>;
+    js(url: string): Promise<string>;
 }
