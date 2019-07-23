@@ -1,15 +1,21 @@
 # Toast v3
 
-Toast is a promise-based asset loader for JS and CSS files. It aims to optimize web site performance by loading and deferring the needed assets only.
-
-Since it have a small footprint Toast can be loaded as soon as possible on the `HEAD` tag.
+Toast is a promise-based asset loader for JS and CSS files. It aims to optimize web site performance by loading and deferring the needed assets.
 
 As a side note: Toast is packaged as an UMD module.
 
-## Install
+## Set up
 
 ```sh
 yarn add toast-loader
+```
+
+Since it have a small footprint, Toast can be loaded as soon as possible in the `HEAD` tag:
+
+```html
+<head>
+    <script src="node_modules/toast-loader/dist/toast.min.js"></script>
+</head>
 ```
 
 ## The API
