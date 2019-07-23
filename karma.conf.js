@@ -1,7 +1,5 @@
-/* eslint @typescript-eslint/camelcase: ["off"] */
-
-import path from 'path'
-import pkg from './package.json'
+const path = require('path')
+const pkg = require('./package.json')
 
 /*
     Polyfill to add typed arrays for Mocha in IE9

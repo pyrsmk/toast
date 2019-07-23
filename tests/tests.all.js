@@ -1,9 +1,3 @@
-/* global describe, it, expect, utils, toast, universe */
-/* eslint func-names: ["off"] */
-/* eslint prefer-arrow-callback: ["off"] */
-/* eslint no-var: ["off"] */
-/* eslint vars-on-top: ["off"] */
-
 describe('toast.all()', function () {
     it('should resolve for URLs', function (done) {
         this.timeout(10000)

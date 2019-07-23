@@ -1,12 +1,3 @@
-/* global describe, it, expect, utils, toast */
-/* eslint no-var: ["off"] */
-/* eslint vars-on-top: ["off"] */
-/* eslint func-names: ["off"] */
-/* eslint prefer-arrow-callback: ["off"] */
-
-/*
-    Tests
-*/
 describe('toast.css()', function () {
     describe('With an URL parameter', function () {
         it('should return a promise', function () {

@@ -1,9 +1,3 @@
-/* eslint func-names: ["off"] */
-/* eslint no-var: ["off"] */
-/* eslint vars-on-top: ["off"] */
-/* eslint prefer-arrow-callback: ["off"] */
-/* eslint import/no-mutable-exports: ["off"] */
-
 var utils = {}
 
 /*
@@ -16,7 +10,7 @@ utils.initTestBlock = function () {
 }
 
 /*
-    Abstract CSS property retrieving
+    Abstract CSS property getter
 */
 utils.getCss = function (style) {
     return getComputedStyle(document.querySelector('#test')).getPropertyValue(style)

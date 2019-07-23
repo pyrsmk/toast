@@ -29,6 +29,11 @@ settings:
             - .tsx
 
 rules:
+    indent:
+        - warn
+        - 4
+        -
+            SwitchCase: 1
     max-len:
         - warn
         -
@@ -39,6 +44,7 @@ rules:
             allow:
                 - warn
                 - error
+    spaced-comment: warn
     linebreak-style: off
     no-multiple-empty-lines:
         - error
@@ -51,14 +57,24 @@ rules:
         -
             beforeStatementContinuationChars: always
     comma-dangle:
-        - error
+        - warn
         -
-            arrays: always-multiline
-            objects: always-multiline
+            arrays: only-multiline
+            objects: only-multiline
             imports: never
             exports: never
-            functions: ignore
+            functions: only-multiline
     class-methods-use-this: off
     no-nested-ternary: error
     no-unneeded-ternary: error
+    func-names:
+        - error
+        - as-needed
+    arrow-parens: off
+    arrow-body-style: off
+    no-restricted-syntax: off
+    require-await: off
+    #
+    # Typescript
+    #
     '@typescript-eslint/no-non-null-assertion': off
