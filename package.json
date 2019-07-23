@@ -1,7 +1,7 @@
 {
   "name": "toast-loader",
   "description": "A modern JS/CSS asset loader",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "author": "Aurélien Delogu <dev@dreamysource.fr> (http://dreamysource.fr)",
   "repository": {
     "type": "git",
@@ -20,7 +20,7 @@
     "url": "https://github.com/pyrsmk/toast/issues",
     "email": "dev@dreamysource.fr"
   },
-  "homepage": "http://dreamysource.io/project/toast",
+  "homepage": "https://github.com/pyrsmk/toast",
   "main": "dist/toast.js",
   "files": [
     "dist/"
