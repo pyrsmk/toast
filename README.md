@@ -47,15 +47,14 @@ toast.js('http://some.cdn.com/jquery.js').then(() => {
 ```
 
 ```js
-toast.all([
+await toast.all([
     'assets/css/styles1.css',
     'assets/css/styles2.css',
     'assets/js/script1.js',
     'assets/js/script2.js',
     'assets/js/script3.js',
-]).then(() => {
-    console.log('Everything has been loaded, yay!')
-})
+])
+console.log('Everything has been loaded, yay!')
 ```
 
 ## Browser compatibility
