@@ -10,13 +10,15 @@ As a side note: Toast is packaged as an UMD module.
 yarn add toast-loader
 ```
 
-Since it have a small footprint, Toast can be loaded as soon as possible in the `HEAD` tag:
+Since it have a small footprint (0.8kb), Toast can be loaded as soon as possible in the `HEAD` tag:
 
 ```html
 <head>
     <script src="node_modules/toast-loader/dist/toast.min.js"></script>
 </head>
 ```
+
+Or even better, you can inline it in your HTML page to improve your loading performance.
 
 ## The API
 
