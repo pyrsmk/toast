@@ -7,7 +7,7 @@ As a side note: Toast is packaged as an UMD module.
 ## Set up
 
 ```sh
-yarn add toast-loader
+npm install toast-loader
 ```
 
 Since it have a small footprint (0.8kb), Toast can be loaded as soon as possible in the `HEAD` tag:
@@ -72,13 +72,13 @@ If you want to look at `SCRIPT`/`LINK` node features support details, you can ta
 Install the dependencies with:
 
 ```sh
-yarn install
+npm install
 ```
 
 Build the lib with:
 
 ```sh
-yarn build
+npm run build
 ```
 
 ## Testing
@@ -101,10 +101,10 @@ export LT_ACCESS_KEY="<your_access_key>"
 Finally, you can run the tests with:
 
 ```sh
-yarn test
+npm run test
 ```
 
-They will be run under the following browsers:
+They will be run against the following browsers:
 
 - Chrome 73
 - Firefox 66
@@ -112,16 +112,16 @@ They will be run under the following browsers:
 - IE 9-11
 - Safari 12
 
-If needed, you can run the tests under only one browser with:
+If needed, you can run the tests against one specific browser with:
 
 ```sh
-yarn chrome
-yarn firefox
-yarn edge
-yarn ie11
-yarn ie10
-yarn ie9
-yarn safari
+npm run chrome
+npm run firefox
+npm run edge
+npm run ie11
+npm run ie10
+npm run ie9
+npm run safari
 ```
 
 ## License
