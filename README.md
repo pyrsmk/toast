@@ -1,24 +1,30 @@
 # Toast v3
 
-Toast is a promise-based asset loader for JS and CSS files. It aims to optimize web site performance by loading and deferring the needed assets.
-
-As a side note: Toast is packaged as an UMD module.
+Toast is a promise-based JS/CSS loader for the browser. It aims to optimize web site performance by loading your assets asynchroneoulsy.
 
 ## Set up
+
+The preferred way to load toast in your application is to install it via NPM (or yarn), and to import it directly in your codebase (it has a very small footprint, and the sooner it's loaded the better).
 
 ```sh
 npm install toast-loader
 ```
 
-Since it have a small footprint (0.8kb), Toast can be loaded as soon as possible in the `HEAD` tag:
+You have several options to load it in your code depending on your application environment:
+
+- by inlining it in a `<script>` tag
+- with `const { toast } = require('toast-loader')`
+- with `import { toast } from 'toast-loader'`
+
+You can also load it from the usual `<script>` tag in your `<head>`, but I advise you to use a [jsDelivr CDN](https://www.jsdelivr.com/) instead of loading it the installed node module:
 
 ```html
 <head>
-    <script src="node_modules/toast-loader/dist/toast.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toast-loader@3.0.3"></script>
 </head>
 ```
 
-Or even better, you can inline it in your HTML page to improve your loading performance.
+Be sure to use the latest version of toast and to keep a fixed version in production environment.
 
 ## The API
 
