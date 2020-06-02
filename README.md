@@ -45,11 +45,18 @@ if (dark_mode === true) {
 ```
 
 ```js
-toast.js('http://some.cdn.com/jquery.js').then(() => {
-    toast.js('http://some.cdn.com/jquery-myplugin.js').then(() => {
-        $('.someClass').myPlugin()
+const handleErrors = error => {
+    console.log(error)
+}
+
+toast.js('http://some.cdn.com/jquery.js')
+    .then(() => {
+        toast.js('http://some.cdn.com/jquery-myplugin.js')
+            .then(() => $('.someClass').myPlugin())
+            .catch(handleErrors)
     })
 })
+    .catch(handleErrors)
 ```
 
 ```js
