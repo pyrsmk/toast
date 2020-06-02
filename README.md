@@ -49,10 +49,23 @@ toast.js('http://some.cdn.com/jquery.js').then(() => {
 ```js
 await toast.all([
     'assets/css/styles1.css',
-    'assets/css/styles2.css',
     'assets/js/script1.js',
     'assets/js/script2.js',
+    'assets/css/styles2.css',
     'assets/js/script3.js',
+])
+console.log('Everything has been loaded, yay!')
+```
+
+`toast.all` relies on automatic extension detection. If your URL does not have an extension (it can happen with CDNs), you'll need to use `Promise.all` instead:
+
+```js
+await Promise.all([
+    toast.css('assets/css/styles1'),
+    toast.js('assets/js/script1'),
+    toast.js('assets/js/script2'),
+    toast.css('assets/css/styles2'),
+    toast.js('assets/js/script3'),
 ])
 console.log('Everything has been loaded, yay!')
 ```
