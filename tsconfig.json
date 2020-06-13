@@ -1,16 +1,22 @@
+// https://www.typescriptlang.org/docs/handbook/compiler-options.html
 {
     "compilerOptions": {
         "outDir": "dist/",
         "declaration": true,
         "declarationDir": "dist/types/",
         "lib": ["es6", "dom"],
+        // It should be "umd", but TypeScript does not support global exposure,
+        // so we're relying on Rollup to bundle things up:
+        // https://github.com/microsoft/TypeScript/issues/8436
         "module": "es6",
+        "allowUmdGlobalAccess": true,
         "target": "es5",
         "strictNullChecks": true,
         "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "noImplicitAny": true,
-        "noImplicitThis": true
+        "noImplicitThis": true,
+        "inlineSourceMap": true
     }
 }

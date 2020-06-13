@@ -1,24 +1,48 @@
 # Toast v3
 
-Toast is a promise-based asset loader for JS and CSS files. It aims to optimize web site performance by loading and deferring the needed assets.
+Toast is a promise-based JS/CSS loader for the browser. It aims to optimize web site performance by loading your assets asynchroneoulsy.
 
-As a side note: Toast is packaged as an UMD module.
+## Quick note on IE9/10 support
+
+Support has been dropped for these browsers because the unit test framework used by toast to run its tests on Karma and BrowserStack is not supporting them either. Since it would take some time to migrate the tests, IE9/10 are not supported anymore by Microsoft, and their market share have dropped under 1%, we took the decision to stop our support too.
+
+Anyway, at the moment, toast `3.0.2` still works with IE9/10. And, since the code shouldn't evolve too much, you should be safe in the far future until toast reach a breaking change.
+
+# Compatibility list
+
+Toast is tested against:
+
+- Chrome 83
+- Firefox 76
+- Edge 83
+- Safari 11-13
+- IE11
+- Android 4.4-10
+- iOS 10-13
 
 ## Set up
 
+The preferred way to load toast in your application is to install it via NPM (or yarn), and to import it directly in your codebase (it has a very small footprint, and the sooner it's loaded the better).
+
 ```sh
-yarn add toast-loader
+npm install toast-loader
 ```
 
-Since it have a small footprint (0.8kb), Toast can be loaded as soon as possible in the `HEAD` tag:
+You have several options to load it in your code depending on your application environment:
+
+- by inlining it in a `<script>` tag
+- with `const { toast } = require('toast-loader')`
+- with `import { toast } from 'toast-loader'`
+
+You can also load it from the usual `<script>` tag in your `<head>`, but I advise you to use a [jsDelivr CDN](https://www.jsdelivr.com/) instead of loading it the installed node module:
 
 ```html
 <head>
-    <script src="node_modules/toast-loader/dist/toast.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toast-loader@3.0.3"></script>
 </head>
 ```
 
-Or even better, you can inline it in your HTML page to improve your loading performance.
+Be sure to use the latest version of toast and to keep a fixed version in production environment.
 
 ## The API
 
@@ -39,31 +63,51 @@ if (dark_mode === true) {
 ```
 
 ```js
-toast.js('http://some.cdn.com/jquery.js').then(() => {
-    toast.js('http://some.cdn.com/jquery-myplugin.js').then(() => {
-        $('.someClass').myPlugin()
+const handleErrors = error => {
+    console.log(error)
+}
+
+toast.js('http://some.cdn.com/jquery.js')
+    .then(() => {
+        toast.js('http://some.cdn.com/jquery-myplugin.js')
+            .then(() => $('.someClass').myPlugin())
+            .catch(handleErrors)
+        })
     })
-})
+    .catch(handleErrors)
 ```
 
 ```js
 await toast.all([
     'assets/css/styles1.css',
-    'assets/css/styles2.css',
     'assets/js/script1.js',
     'assets/js/script2.js',
+    'assets/css/styles2.css',
     'assets/js/script3.js',
+])
+console.log('Everything has been loaded, yay!')
+```
+
+`toast.all` relies on automatic extension detection. If your URL does not have an extension (it can happen with CDNs), you'll need to use `Promise.all` instead:
+
+```js
+await Promise.all([
+    toast.css('assets/css/styles1'),
+    toast.js('assets/js/script1'),
+    toast.js('assets/js/script2'),
+    toast.css('assets/css/styles2'),
+    toast.js('assets/js/script3'),
 ])
 console.log('Everything has been loaded, yay!')
 ```
 
 ## Browser compatibility
 
-IE8 support (and prior) has been dropped. If you badly need it, you can open an issue and I will see what I can do to restore it as a separate build.
+IE10 support (and prior) has been removed since it's not supported by Microsoft anymore and their market share have dropped under 1%.
 
-Toast is using built-in promises, so if you need to support IE9-11, you must add the [promise-polyfill](https://github.com/taylorhakes/promise-polyfill) library before loading Toast. Here's the compatibility table for the [Promise feature](https://www.caniuse.com/#feat=promises).
+Toast is using built-in promises, so if you need to support I11, you must add the [promise-polyfill](https://github.com/taylorhakes/promise-polyfill) library before loading toast. Here's the compatibility table for the [Promise feature](https://www.caniuse.com/#feat=promises).
 
-For your information, IE9-IE11 and Edge never trigger `error` event on CSS loading if something went wrong. Keep this in mind when you're using `catch` promise block with Toast.
+For your information, IE11 and Edge never trigger `error` event on CSS loading if something went wrong. Keep this in mind when you're using `catch` promise block.
 
 If you want to look at `SCRIPT`/`LINK` node features support details, you can take a look at this [compatibility table](https://pie.gd/test/script-link-events/).
 
@@ -72,57 +116,69 @@ If you want to look at `SCRIPT`/`LINK` node features support details, you can ta
 Install the dependencies with:
 
 ```sh
-yarn install
+npm install
 ```
 
 Build the lib with:
 
 ```sh
-yarn build
+npm run build
 ```
 
 ## Testing
 
-Tests are written with [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com/) and run with [Karma](https://karma-runner.github.io/latest/index.html) on [LambdaTest](https://www.lambdatest.com/).
-
-First, you will need to set up you're own environment:
-
-- create your account on LambdaTest
-- download the [tunnel software](https://www.lambdatest.com/support/docs/testing-locally-hosted-pages/), it will act as a gateway between Karma and LambdaTest
-- verify that the `LT` command is accessible (e.g. in the `PATH`)
-- get your credentials from the Automation page, they are located under the key icon
-- set them in your environment, per example in your `.bashrc`:
+Tests are written with [QUnit](https://api.qunitjs.com/) and can be run with:
 
 ```sh
-export LT_USERNAME="<your_username>"
-export LT_ACCESS_KEY="<your_access_key>"
+npm run test
 ```
 
-Finally, you can run the tests with:
+It should open your default browser (under a Gnome desktop). If not, just drag and drop the `tests/index.html` in your browser.
+
+These tests are just for local purpose when in development phase but they need to pass the Karma tests. [Karma](https://karma-runner.github.io/latest/index.html) is a tool to execute unit tests on remote browsers with Selenium/Appium. To be able to run them, you'll need an account on [BrowserStack](https://www.browserstack.com/). It's the only one that have a free plan for open-source projects.
+
+When your account is ready, you must prepare your environment by setting global variables in a file that is loaded when your console initializes, like `.bashrc`, `.zshrc` or `.profile`:
+
+- go to the [Automate page](https://automate.browserstack.com/dashboard/v2)
+- display your `ACCESS KEY` (it's accessible on the right of the search bar)
+- set your env variables like so:
+    ```sh
+    export BROWSERSTACK_USERNAME="<your_username>"
+    export BROWSERSTACK_ACCESS_KEY="<your_access_key>"
+    ```
+
+Then, run karma tests with:
 
 ```sh
-yarn test
+npm run karma:all
 ```
 
-They will be run under the following browsers:
+The results will be displayed in the console and on the Automate page of your account.
 
-- Chrome 73
-- Firefox 66
-- Edge 18
-- IE 9-11
-- Safari 12
-
-If needed, you can run the tests under only one browser with:
+If you want to only run tests on a specific browser:
 
 ```sh
-yarn chrome
-yarn firefox
-yarn edge
-yarn ie11
-yarn ie10
-yarn ie9
-yarn safari
+npm run karma:chrome
+npm run karma:firefox
+npm run karma:safari13
+npm run karma:safari12
+npm run karma:safari11
+npm run karma:edge
+npm run karma:ie11
+npm run karma:android10
+npm run karma:android9
+npm run karma:android8
+npm run karma:android7
+npm run karma:android6
+npm run karma:android5
+npm run karma:android44
+npm run karma:ios13
+npm run karma:ios12
+npm run karma:ios11
+npm run karma:ios10
 ```
+
+Note: I don't know why but the tests can be unstable in some VMs when running all Karma tests in parallel; don't hesitate to re-run tests on a specific VM to verify.
 
 ## License
 

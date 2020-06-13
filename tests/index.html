@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Toast tests with Mocha/Sinon/Chai</title>
+    <link rel="stylesheet" href="../node_modules/mocha/mocha.css">
+  </head>
+  <body>
+    <div id="mocha"></div>
+
+    <script src="../node_modules/chai/chai.js"></script>
+    <script src="../node_modules/sinon-chai/lib/sinon-chai.js"></script>
+    <script src="../node_modules/sinon/pkg/sinon.js"></script>
+    <script src="../node_modules/mocha/mocha.js"></script>
+
+    <script>
+      mocha.setup('bdd')
+      window.expect = chai.expect
+    </script>
+
+    <script src="lib/toast.min.js"></script>
+    <script src="utils.js"></script>
+    <script src="tests.base.js"></script>
+    <script src="tests.css.js"></script>
+    <script src="tests.js.js"></script>
+    <script src="tests.all.js"></script>
+
+    <script>
+      mocha.run()
+    </script>
+  </body>
+</html>
