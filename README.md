@@ -183,4 +183,4 @@ Note: I don't know why but the tests can be unstable in some VMs when running al
 
 ## License
 
-[MIT](http://dreamysource.mit-license.org).
+[MIT](LICENSE.txt).
