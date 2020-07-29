@@ -27,10 +27,10 @@
   ],
   "types": "dist/types/",
   "scripts": {
-    "build": "npm run lint && npm run bundle && npm run minify && npm run minify-dev",
+    "build": "npm run lint && npm run bundle && npm run minify",
     "lint": "npx eslint src/*",
     "bundle": "mkdir -p dist && npx tsc && npx rollup -c",
-    "minify": "uglifyjs dist/toast.js --compress --output dist/toast.min.js --source-map 'content=inline' && mkdir -p tests/lib && cp -f dist/toast.min.js tests/lib/ &&  mv -f dist/toast.min.js.map tests/lib/",
+    "minify": "uglifyjs dist/toast.js --compress --output dist/toast.min.js --source-map 'content=inline' && mkdir -p tests/lib && cp -f dist/toast.min.js tests/lib/ && mv -f dist/toast.min.js.map tests/lib/",
     "test": "sensible-browser tests/index.html",
     "karma:all": "npm run kill-karma && npx karma start",
     "karma:chrome": "npm run kill-karma && npx karma start --browsers chrome",
