@@ -9,6 +9,6 @@ export default {
         sourcemap: 'inline'
     },
     // It's needed to load sourcemaps from input files since Rollup
-    // does not natively support it
+    // does not natively support it.
     plugins: [sourcemaps()],
 }
