@@ -38,7 +38,7 @@ You can also load it from the usual `<script>` tag in your `<head>`, but I advis
 
 ```html
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/toast-loader@3.0.3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/toast-loader@3.0.4"></script>
 </head>
 ```
 

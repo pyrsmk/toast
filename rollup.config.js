@@ -3,7 +3,7 @@ import sourcemaps from 'rollup-plugin-sourcemaps'
 export default {
     input: 'dist/Toast.js',
     output: {
-        file: 'dist/toast.js',
+        file: 'dist/toast.umd.js',
         format: 'umd',
         name: 'toast',
         sourcemap: 'inline'
